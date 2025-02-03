@@ -1,0 +1,74 @@
+﻿@model NewHuylebronVilla.Domain.Entities.Villa
+<div class="card border-0 shadow-lg rounded-4">
+    <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #28a745, #218838);">
+        <h2 class="fw-bold mb-0">🏡 cập nhật biệt thự  </h2>
+    </div>
+
+    <div class="card-body p-4">
+        <form method="post" class="row g-3 needs-validation" enctype="multipart/form-data" novalidate>
+            <input asp-for="Id" hidden />
+            <div class="col-12">
+                <div asp-validation-summary=" All"></div>
+                <div class="form-floating">
+                    <input asp-for=" Name " class="form-control border rounded-3 shadow-sm" placeholder="Villa Name"/>
+                    <label asp-for=" Name " class="ms-2">🏠 tên biệt thự </label>
+                    <span asp-validation-for=" Name " class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="form-floating">
+                    <textarea asp-for=" Description " class="form-control border rounded-3 shadow-sm" placeholder="Description" style="height: 100px;"></textarea>
+                    <label asp-for=" Description " class="ms-2">📝 tiêu đề </label>
+                    <span asp-validation-for=" Description " class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for=" Price " type="number" class="form-control border rounded-3 shadow-sm" placeholder="Price"/>
+                    <label asp-for=" Price " class="ms-2">💰 giá cả ($) </label>
+                    <span asp-validation-for=" Price " class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for=" Sqft " type="number" class="form-control border rounded-3 shadow-sm" placeholder="Square Feet"/>
+                    <label asp-for=" Sqft " class="ms-2">📏 Sqft( diện tích )</label>
+                    <span asp-validation-for=" Sqft " class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for=" Occupancy " type="number" class="form-control border rounded-3 shadow-sm" placeholder="Occupancy"/>
+                    <label asp-for=" Occupancy " class="ms-2">👥 sức chứa </label>
+                    <span asp-validation-for=" Occupancy " class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-floating">
+                    <input asp-for=" ImageUrl " class="form-control border rounded-3 shadow-sm" placeholder="ImageUrl"/>
+                    <label asp-for=" ImageUrl " class="ms-2"></label>
+                    <span asp-validation-for=" ImageUrl " class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="col-12 d-flex justify-content-center gap-3">
+                <button type="submit" class="btn btn-lg btn-success shadow-sm px-4 py-2 rounded-pill">
+                    <i class="bi bi-check-circle"></i> chỉnh sửa
+                </button>
+                <a asp-controller="Villa" asp-action="Index" class="btn btn-lg btn-secondary shadow-sm px-4 py-2 rounded-pill">
+                    <i class="bi bi-x-circle"></i> hủy
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+}
