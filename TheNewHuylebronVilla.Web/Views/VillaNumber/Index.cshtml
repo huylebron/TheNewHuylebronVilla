@@ -1,0 +1,49 @@
+﻿@model IEnumerable<NewHuylebronVilla . Domain . Entities . VillaNumber>
+<div class="card border-0 shadow-lg rounded-4">
+    <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #28a745, #218838);">
+        <h2 class="fw-bold mb-0">🏡 Danh sách mã số biệt thự </h2>
+    </div>
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-end mb-3">
+            <a asp-controller="VillaNumber" asp-action="Create" class="btn btn-lg btn-success shadow-sm px-4 py-2 rounded-pill">
+                <i class="bi bi-plus-circle"></i> Thêm mã số 
+            </a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle text-center table-bordered">
+                <thead class="table-success text-dark">
+                    <tr>
+                        <th class="py-3">Id biệt thự </th>
+                        <th class="py-3">mã số </th>
+                        <th class="py-3">chi tiết đặc biệt</th>
+                      
+                        <th class="py-3">⚙️ Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var obj in Model)
+                    {
+                        <tr>
+                            <td class="py-3 fw-semibold">@obj.VillaId</td>
+                            
+                            <td class="py-3">@obj.Villa_Number</td>
+                            <td class="py-3">@obj.SpecialDetails</td>
+                            <td class="py-3">
+                                <div class="btn-group" role="group">
+                                    <a asp-controller="VillaNumber" asp-action="Update" asp-route-villaNumberId="@obj.Villa_Number"
+                                       class="btn btn-outline-success mx-1">
+                                        <i class="bi bi-pencil-square"></i> Sửa
+                                    </a>
+                                    <a asp-controller="VillaNumber" asp-action="Delete" asp-route-villaNumberId="@obj.Villa_Number"
+                                       class="btn btn-outline-danger mx-1">
+                                        <i class="bi bi-trash"></i> Xóa
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,50 @@
+﻿@model NewHuylebronVilla.Domain.Entities.VillaNumber
+
+
+<div class="card shadow-lg border-0 rounded-lg">
+    <div class="card-header bg-success bg-gradient text-center py-4">
+        <h2 class="text-white"><i class="bi bi-building"></i>  thêm mã số mới </h2>
+    </div>
+    <div class="card-body p-4">
+        <form method="post" class="row g-3" enctype="multipart/form-data">
+            @* <div asp-validation-summary="All"></div>*@   
+
+            <div class="form-floating col-12">
+                <select asp-for="@Model.VillaId" ></select>
+                <label asp-for=" VillaId " class="ms-2"><i class="bi bi-house-door-fill"></i> </label>
+                <span asp-validation-for=" VillaId " class="text-danger"></span>
+            </div>
+
+            <div class="form-floating col-12">
+                <textarea asp-for="Villa_Number" class="form-control border shadow-sm" placeholder="Description" style="height: 100px;"></textarea>
+                <label asp-for="Villa_Number" class="ms-2"><i class="bi bi-card-text"></i> mã số biệt thự  </label>
+                <span asp-validation-for="Villa_Number" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating col-12">
+                <textarea asp-for="SpecialDetails" class="form-control border shadow-sm" placeholder="Description" style="height: 100px;"></textarea>
+                <label asp-for="SpecialDetails" class="ms-2"><i class="bi bi-card-text"></i> chi tiết đặc biệt </label>
+                <span asp-validation-for="SpecialDetails" class="text-danger"></span>
+            </div>
+
+          
+            <div class="col-12 d-flex justify-content-center gap-3">
+                <button type="submit" class="btn btn-lg btn-success shadow-sm px-4 py-2 rounded-pill">
+                    <i class="bi bi-check-circle"></i> thêm
+                </button>
+                <a asp-controller="VillaNumber" asp-action="Index" class="btn btn-lg btn-secondary shadow-sm px-4 py-2 rounded-pill">
+                    <i class="bi bi-x-circle"></i> hủy
+                </a>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
+
