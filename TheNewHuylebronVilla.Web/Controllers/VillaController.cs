@@ -16,7 +16,7 @@ namespace TheNewHuylebronVilla.Web.Controllers
         public IActionResult Index()
         {
             var villas = _db.Villas.ToList();
-            return View(villas);
+            return View (villas) ;
         }
 
         public IActionResult Create()
