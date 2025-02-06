@@ -28,6 +28,7 @@ public class VillaNumberController : Controller
             Text = u.Name,
             Value = u.Id.ToString()
         });
+        ViewData["VillaList"] = list;
         return View();
     }
 
