@@ -1,4 +1,5 @@
 ﻿using Microsoft . AspNetCore . Mvc ;
+using Microsoft . AspNetCore . Mvc . Rendering ;
 using NewHuylebronVilla . Domain . Entities ;
 using NewHuylebronVilla . Infrastructure . Data ;
 
@@ -22,6 +23,11 @@ public class VillaNumberController : Controller
     
     public IActionResult Create()
     {
+        IEnumerable<SelectListItem> list = _db.Villas.ToList().Select(u => new SelectListItem
+        {
+            Text = u.Name,
+            Value = u.Id.ToString()
+        });
         return View();
     }
 
