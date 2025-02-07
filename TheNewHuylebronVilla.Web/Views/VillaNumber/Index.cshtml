@@ -29,13 +29,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var obj in Model)
-                {
-                    <tr>
-                        <td>@obj.VillaId</td>
-                        <td>@obj.Villa_Number</td>
-                        <td>@obj.SpecialDetails</td>
-                        <td>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>@obj.Villa.Name</td>
+                    <td>@obj.Villa_Number</td>
+                    <td>@obj.SpecialDetails</td>
+                    <td>
                             <div class="w-75 btn-group" role="group">
                                 <a asp-controller="VillaNumber" asp-action="Update" asp-route-villaNumberId="@obj.Villa_Number"
                                    class="btn btn-success mx-2">
