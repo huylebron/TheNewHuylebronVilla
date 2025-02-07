@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System . ComponentModel . DataAnnotations . Schema ;
+using Microsoft . AspNetCore . Http ;
 
 namespace NewHuylebronVilla.Domain.Entities
 {
@@ -14,8 +16,7 @@ namespace NewHuylebronVilla.Domain.Entities
         [Range(10, 10000)] public int Sqft { get; set; }
         [Range(1, 10)] public int Occupancy { get; set; }
 
-        //     [NotMapped]
-        // public IFormFile? Image { get; set; }
+         [NotMapped] public IFormFile? Image { get; set; }
         [Display(Name = "Image Url")] public string? ImageUrl { get; set; }
 
         public DateTime? Created_Date { get; set; }
