@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NewHuylebronVilla.Application\NewHuylebronVilla.Application.csproj" />
-    <ProjectReference Include="..\NewHuylebronVilla.Domain\NewHuylebronVilla.Domain.csproj" />
+    
   </ItemGroup>
 
   <ItemGroup>

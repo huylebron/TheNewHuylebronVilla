@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NewHuylebronVilla . Application . Common . Interface ;
 using NewHuylebronVilla.Domain.Entities;
 using NewHuylebronVilla.Infrastructure.Data;
 
@@ -6,92 +7,92 @@ namespace TheNewHuylebronVilla.Web.Controllers
 {
     public class VillaController : Controller
     {
-        private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork ;
 
-        public VillaController(ApplicationDbContext db)
-        {
-            _db = db;
+        public VillaController ( IUnitOfWork unitOfWork ) {
+            _unitOfWork = unitOfWork ;
         }
 
-        public IActionResult Index()
-        {
-            var villas = _db.Villas.ToList();
-            return View (villas) ;
+        public IActionResult Index ( ) {
+            var villas = _unitOfWork . Villa . GetAll ( ) ;
+            return View ( villas ) ;
         }
 
-        public IActionResult Create()
-        {
-            return View();
+        public IActionResult Create ( ) {
+            return View ( ) ;
         }
 
-        [HttpPost]
-        public IActionResult Create(Villa obj)
-        {
-            if (obj.Name == obj.Description)
+        [ HttpPost ]
+        public IActionResult Create ( Villa obj ) {
+
+            if ( obj . Name == obj . Description )
             {
-                ModelState.AddModelError("name", "tiêu đề không được giống với tên ");
+                ModelState . AddModelError ( "name" , "The description cannot exactly match the Name." ) ;
             }
 
-            if (ModelState.IsValid)
+            if ( ModelState . IsValid )
             {
-                _db.Villas.Add(obj);
-                _db.SaveChanges();
-                TempData["success"] = "The villa has been created successfully.";
-                return RedirectToAction("Index", "Villa");
+                _unitOfWork . Villa . Add ( obj ) ;
+                _unitOfWork . Save ( ) ;
+                TempData [ "success" ] = "The villa has been created successfully." ;
+                return RedirectToAction ( nameof ( Index ) ) ;
             }
 
-            return View();
+            return View ( ) ;
         }
 
-        public IActionResult Update(int villaId)
-        {
-            Villa? obj = _db.Villas.FirstOrDefault(u => u.Id == villaId);
-            if (obj == null)
+        public IActionResult Update ( int villaId ) {
+            Villa ? obj = _unitOfWork . Villa . Get ( u => u . Id == villaId ) ;
+            //Villa? obj = _db.Villas.Find(villaId);
+            //var VillaList = _db.Villas.Where(u => u.Price > 50 && u.Occupancy > 0);
+            if ( obj == null )
             {
-                return RedirectToAction("Error", "home");
+                return RedirectToAction ( "Error" , "Home" ) ;
             }
 
-            return View(obj);
+            return View ( obj ) ;
         }
 
-        [HttpPost]
-        public IActionResult Update(Villa obj)
-        {
-            if (ModelState.IsValid && obj.Id > 0)
+        [ HttpPost ]
+        public IActionResult Update ( Villa obj ) {
+            if ( ModelState . IsValid && obj . Id > 0 )
             {
-                _db.Villas.Update(obj);
-                _db.SaveChanges();
-                TempData["success"] = "The villa has been updated successfully.";
-                return RedirectToAction("Index", "Villa");
+                _unitOfWork . Villa . Update ( obj ) ;
+                _unitOfWork . Save ( ) ;
+                TempData [ "success" ] = "The villa has been updated successfully." ;
+                return RedirectToAction ( nameof ( Index ) ) ;
             }
 
-            return View(obj);
+            return View ( ) ;
         }
 
-        public IActionResult Delete(int villaId)
-        {
-            Villa? obj = _db.Villas.FirstOrDefault(u => u.Id == villaId);
-            if (obj == null)
+        public IActionResult Delete ( int villaId ) {
+            Villa ? obj = _unitOfWork . Villa . Get ( u => u . Id == villaId ) ;
+            if ( obj is null )
             {
-                return RedirectToAction("Error", "home");
+                return RedirectToAction ( "Error" , "Home" ) ;
             }
 
-            return View(obj);
+            return View ( obj ) ;
         }
 
-        [HttpPost]
-        public IActionResult Delete(Villa obj)
-        {
-            Villa? objFromDb = _db.Villas.FirstOrDefault(u => u.Id == obj.Id);
-            if (objFromDb is not null)
+
+        [ HttpPost ]
+        public IActionResult Delete ( Villa obj ) {
+            Villa ? objFromDb = _unitOfWork . Villa . Get ( u => u . Id == obj . Id ) ;
+            if ( objFromDb is not null )
             {
-                _db.Villas.Remove(objFromDb);
-                _db.SaveChanges();
-                TempData["success"] = "The villa has been deleted successfully.";
-                return RedirectToAction("Index", "Villa");
+                _unitOfWork . Villa . Remove ( objFromDb ) ;
+                _unitOfWork . Save ( ) ;
+                TempData [ "success" ] = "The villa has been deleted successfully." ;
+                return RedirectToAction ( nameof ( Index ) ) ;
             }
 
-            return View(obj);
+            return View ( ) ;
         }
     }
 }
+    
+    
+
+    
