@@ -2,40 +2,40 @@
 
 <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
     <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #28a745, #218838);">
-        <h2 class="fw-bold mb-0">🏡 Cập nhật biệt thự</h2>
+        <h2 class="fw-bold mb-0"><i class="bi bi-pencil-square"></i> Cập Nhật Biệt Thự</h2>
     </div>
 
     <div class="card-body p-4">
         <form method="post" class="row g-4 needs-validation" enctype="multipart/form-data" novalidate>
             <input asp-for="Id" hidden />
-            
+
             <div class="col-md-8">
                 <div asp-validation-summary="All" class="text-danger small"></div>
-                
+
                 <div class="form-floating">
-                    <input asp-for="Name" class="form-control border rounded-3 shadow-sm" placeholder="Villa Name" required/>
-                    <label asp-for="Name" class="ms-2">🏠 Tên biệt thự</label>
+                    <input asp-for="Name" class="form-control border rounded-3 shadow-sm" placeholder="Villa Name" required />
+                    <label asp-for="Name" class="ms-2"><i class="bi bi-house-door-fill"></i> Tên biệt thự</label>
                     <span asp-validation-for="Name" class="text-danger small"></span>
                 </div>
-                
+
                 <div class="form-floating mt-3">
                     <textarea asp-for="Description" class="form-control border rounded-3 shadow-sm" placeholder="Description" style="height: 100px;" required></textarea>
-                    <label asp-for="Description" class="ms-2">📝 Tiêu đề</label>
+                    <label asp-for="Description" class="ms-2"><i class="bi bi-card-text"></i> Mô tả</label>
                     <span asp-validation-for="Description" class="text-danger small"></span>
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input asp-for="Price" type="number" class="form-control border rounded-3 shadow-sm" placeholder="Price" required/>
-                            <label asp-for="Price" class="ms-2">💰 Giá cả ($)</label>
+                            <input asp-for="Price" type="number" class="form-control border rounded-3 shadow-sm" placeholder="Price" required />
+                            <label asp-for="Price" class="ms-2"><i class="bi bi-cash-coin"></i> Giá cả ($)</label>
                             <span asp-validation-for="Price" class="text-danger small"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input asp-for="Sqft" type="number" class="form-control border rounded-3 shadow-sm" placeholder="Square Feet" required/>
-                            <label asp-for="Sqft" class="ms-2">📏 Diện tích (Sqft)</label>
+                            <input asp-for="Sqft" type="number" class="form-control border rounded-3 shadow-sm" placeholder="Diện tích" required />
+                            <label asp-for="Sqft" class="ms-2"><i class="bi bi-rulers"></i> Diện tích (ft²)</label>
                             <span asp-validation-for="Sqft" class="text-danger small"></span>
                         </div>
                     </div>
@@ -44,39 +44,79 @@
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <div class="form-floating">
-                            <input asp-for="Occupancy" type="number" class="form-control border rounded-3 shadow-sm" placeholder="Occupancy" required/>
-                            <label asp-for="Occupancy" class="ms-2">👥 Sức chứa</label>
+                            <input asp-for="Occupancy" type="number" class="form-control border rounded-3 shadow-sm" placeholder="Sức chứa" required />
+                            <label asp-for="Occupancy" class="ms-2"><i class="bi bi-people-fill"></i> Sức chứa</label>
                             <span asp-validation-for="Occupancy" class="text-danger small"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-floating">
-                            <input asp-for="Image" type="file" class="form-control border rounded-3 shadow-sm"/>
-                            <input asp-for="ImageUrl" hidden />
-                            <span asp-validation-for="ImageUrl" class="text-danger small"></span>
-                        </div>
+                        <label class="form-label mt-2"><i class="bi bi-image-fill"></i> Ảnh Biệt Thự</label>
+                        <input asp-for="Image" type="file" class="form-control border rounded-3 shadow-sm" id="imageUpload" accept="image/*" />
+                        <input asp-for="ImageUrl" type="hidden" id="imageUrlHidden" />
+                        <span asp-validation-for="ImageUrl" class="text-danger small"></span>
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-center gap-3 mt-4">
-                    <button type="submit" class="btn btn-lg btn-success shadow-sm px-4 py-2 rounded-pill fw-bold">
-                        <i class="bi bi-check-circle"></i> Chỉnh sửa
-                    </button>
-                    <a asp-controller="Villa" asp-action="Index" class="btn btn-lg btn-secondary shadow-sm px-4 py-2 rounded-pill fw-bold">
-                        <i class="bi bi-x-circle"></i> Hủy
-                    </a>
+                <div class="row pt-3 justify-content-center">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-success w-100 shadow-sm">
+                            <i class="bi bi-check-circle"></i> Cập Nhật
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Villa" asp-action="Index" class="btn btn-secondary w-100 shadow-sm">
+                            <i class="bi bi-x-circle"></i> Hủy
+                        </a>
+                    </div>
                 </div>
             </div>
-            
+
+            <!-- Phần hiển thị ảnh -->
             <div class="col-md-4 d-flex align-items-center justify-content-center">
-                <img src="@Model.ImageUrl" class="img-fluid rounded-3 shadow-sm" style="max-height: 250px; object-fit: cover; border: 1px solid #bbb9b9;" />
+                <div class="image-container position-relative">
+                    <img id="previewImage" src="@Model.ImageUrl" class="img-thumbnail rounded-3 shadow-sm"
+                        style="max-height: 250px; object-fit: cover; border: 1px solid #bbb9b9;" />
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-@section Scripts {
-    @{
-        <partial name="_ValidationScriptsPartial" />
+<style>
+    /* Tạo bo góc và hiệu ứng bóng cho form */
+    .form-floating input, .form-floating textarea {
+        border-radius: 10px;
+        padding-left: 15px;
     }
+
+    /* Hiệu ứng hover cho nút */
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    /* Hiển thị ảnh preview */
+    .image-container {
+        width: 100%;
+        text-align: center;
+    }
+
+    .image-container img {
+        max-width: 100%;
+        max-height: 250px;
+    }
+</style>
+
+<script>
+    document.getElementById("imageUpload").addEventListener("change", function(event) {
+        let reader = new FileReader();
+        reader.onload = function() {
+            let preview = document.getElementById("previewImage");
+            preview.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }
