@@ -17,5 +17,5 @@ namespace NewHuylebronVilla.Domain.Entities
         [ValidateNever]
         public Villa Villa { get; set; }
         public string? SpecialDetails { get; set; }
-    }
+    }   
 }
