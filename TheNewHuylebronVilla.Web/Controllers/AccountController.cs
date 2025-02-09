@@ -1,5 +1,7 @@
 ﻿using Microsoft . AspNetCore . Identity ;
 using Microsoft . AspNetCore . Mvc ;
+using Microsoft . AspNetCore . Mvc . Rendering ;
+using NewHuylebronVilla . Application . Common . Division ;
 using NewHuylebronVilla . Application . Common . Interface ;
 using NewHuylebronVilla . Domain . Entities ;
 using TheNewHuylebronVilla . Web . ViewModels ;
@@ -38,6 +40,20 @@ public class AccountController : Controller
 
     public IActionResult Register()
     {
-        return View();
+        if (!_roleManager.RoleExistsAsync(Claim.Role_Admin).GetAwaiter().GetResult())
+        {
+            _roleManager.CreateAsync(new IdentityRole(Claim.Role_Customer)).Wait();
+            _roleManager.CreateAsync(new IdentityRole(Claim.Role_Admin)).Wait();
+        }
+        
+        RegisterVM registerVM = new ()
+        {
+            RoleList = _roleManager.Roles.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Name
+            })
+        };
+        return View(registerVM);
     }
 }
