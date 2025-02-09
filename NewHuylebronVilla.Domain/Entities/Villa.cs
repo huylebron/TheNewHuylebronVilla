@@ -22,9 +22,10 @@ namespace NewHuylebronVilla.Domain.Entities
 
         public DateTime? Created_Date { get; set; }
         public DateTime? Updated_Date { get; set; }
+        [ValidateNever]
+        public IEnumerable<Amenity> VillaAmenity { get; set; }
 
-       //  [ValidateNever]
-       //  public IEnumerable<Amenity> VillaAmenity { get; set; }
+      
 
         // [NotMapped]
         // public bool IsAvailable { get; set; } = true;

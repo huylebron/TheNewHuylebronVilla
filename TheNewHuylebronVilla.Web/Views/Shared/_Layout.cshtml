@@ -29,27 +29,30 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Quản lý
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li>
+                                    <a class="dropdown-item" asp-controller="villa" asp-action="Index">biệt thự</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="VillaNumber" asp-action="Index">mã số biệt thự</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" asp-controller="Amenity" asp-action="Index">tiện ích</a>
+                                </li>
+                            </ul>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="villa" asp-action="Index">biệt thự </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="VillaNumber" asp-action="Index"> mã số biệt thự </a>
-                        </li>
-                        <li class="nav-item">
-                        <a class="nav-link" asp-controller="Amenity" asp-action="Index"> tiện ích </a>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="">
+        <main role="main">
             <partial name="_Notification" />
             @RenderBody( )
         </main>

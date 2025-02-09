@@ -1,22 +1,33 @@
-using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using TheNewHuylebronVilla.Web.Models;
+
+using System . Diagnostics ;
+using Microsoft . AspNetCore . Mvc ;
+using NewHuylebronVilla . Application . Common . Interface ;
+using TheNewHuylebronVilla . Web . Models ;
+using TheNewHuylebronVilla . Web . ViewModels ;
 
 namespace TheNewHuylebronVilla.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IUnitOfWork unitOfWork)
         {
-            _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeVM homeVM = new()
+            {
+                VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity"),
+                Nights=1,
+                CheckInDate =DateOnly.FromDateTime(DateTime.Now),
+            };
+            return View(homeVM);
         }
+
+      
 
         public IActionResult Privacy()
         {
@@ -26,7 +37,7 @@ namespace TheNewHuylebronVilla.Web.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View( );
         }
     }
 }
