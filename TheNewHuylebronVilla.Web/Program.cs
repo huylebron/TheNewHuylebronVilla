@@ -1,6 +1,7 @@
 using Microsoft . AspNetCore . Identity ;
 using Microsoft.EntityFrameworkCore;
 using NewHuylebronVilla . Application . Common . Interface ;
+using NewHuylebronVilla . Domain . Entities ;
 using NewHuylebronVilla.Infrastructure.Data;
 using NewHuylebronVilla . Infrastructure . Repository ;
 
@@ -13,7 +14,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 builder.Services.AddScoped<IVillaRepository,VillaRepository>();
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
     
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
        .AddEntityFrameworkStores<ApplicationDbContext>();
 
 var app = builder.Build();
