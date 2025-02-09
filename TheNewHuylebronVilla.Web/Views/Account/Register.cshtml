@@ -1,56 +1,71 @@
 ﻿@model TheNewHuylebronVilla.Web.ViewModels.RegisterVM
-<div class="container pt-5">
-    <div class="card shadow border ">
-        <div class="card-header bg-success bg-gradient ml-0 py-4">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="py-2 text-white">Register</h2>
-                </div>
-            </div>
+
+<div class="container pt-5 d-flex justify-content-center">
+    <div class="card shadow-lg border rounded-4" style="max-width: 500px; width: 100%;">
+        <div class="card-header bg-success bg-gradient text-center py-4 rounded-top-4">
+            <h2 class="text-white fw-bold">Register</h2>
         </div>
         <div class="card-body p-4">
-            <div class="row pt-3">
-                <div class="col-md-12">
-                    <form class="row" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-floating mb-3 col-md-12">
-                            <input asp-for="Email" class="form-control" aria-required="true" />
-                            <label asp-for="Email" class="ms-2 text-muted"></label>
-                            <span asp-validation-for="Email" class="text-danger"/>
-                        </div>
-                        <div class="form-floating mb-3 col-md-6">
-                            <input asp-for="Name" class="form-control" />
-                            <label asp-for="Name" class="ms-2 text-muted"></label>
-                            <span asp-validation-for="Name" class="text-danger" />
-                        </div>
-                        <div class="form-floating mb-3 col-md-6">
-                            <input asp-for="PhoneNumber" class="form-control" />
-                            <label asp-for="PhoneNumber" class="ms-2 text-muted"></label>
-                            <span asp-validation-for="PhoneNumber" class="text-danger" />
-                        </div>
-                        <div class="form-floating mb-3 col-md-6">
-                            <input asp-for="Password" class="form-control" />
-                            <label asp-for="Password" class="ms-2 text-muted"></label>
-                            <span asp-validation-for="Password" class="text-danger" />
-                        </div>
-                        <div class="form-floating mb-3 col-md-6">
-                            <input asp-for="ConfirmPassword" class="form-control" />
-                            <label asp-for="ConfirmPassword" class="ms-2 text-muted">Confirm Password</label>
-                            <span asp-validation-for="ConfirmPassword" class="text-danger" />
-                        </div>
-
-                        <div class="form-floating mb-3 col-md-6">
-                            <select asp-for="Role" asp-items="@Model.RoleList" class="form-select">
-                                <option disabled selected>-Select Role-</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <button type="submit" class="w-100 btn btn-lg btn-outline-success">Register</button>
-                        </div>
-                    </form>
+            <form method="post" class="needs-validation" novalidate>
+                <input asp-for="RedirectUrl" type="hidden" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" id="email" placeholder="name@example.com" required />
+                    <label for="email">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-            </div>
+                
+                <div class="form-floating mb-3">
+                    <input asp-for="Name" class="form-control" id="name" placeholder="Full Name" required />
+                    <label for="name">Full Name</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                
+                <div class="form-floating mb-3">
+                    <input asp-for="PhoneNumber" class="form-control" id="phoneNumber" placeholder="Phone Number" required />
+                    <label for="phoneNumber">Phone Number</label>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                
+                <div class="form-floating mb-3">
+                    <input asp-for="Password" class="form-control" id="password" type="password" placeholder="Password" required />
+                    <label for="password">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                
+                <div class="form-floating mb-3">
+                    <input asp-for="ConfirmPassword" class="form-control" id="confirmPassword" type="password" placeholder="Confirm Password" required />
+                    <label for="confirmPassword">Confirm Password</label>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+                
+                <div class="form-floating mb-3">
+                    <select asp-for="Role" asp-items="@Model.RoleList" class="form-select" required>
+                        <option disabled selected>-Select Role-</option>
+                    </select>
+                    <label for="role">Select Role</label>
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="showPassword" onclick="togglePasswordVisibility()" />
+                    <label class="form-check-label" for="showPassword">Show Password</label>
+                </div>
+                
+                <button type="submit" class="btn btn-success w-100 py-2 fw-bold">Register</button>
+            </form>
         </div>
     </div>
-
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePasswordVisibility() {
+            var password = document.getElementById("password");
+            var confirmPassword = document.getElementById("confirmPassword");
+            password.type = password.type === "password" ? "text" : "password";
+            confirmPassword.type = confirmPassword.type === "password" ? "text" : "password";
+        }
+    </script>
+}

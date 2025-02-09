@@ -1,57 +1,54 @@
 ﻿@model TheNewHuylebronVilla.Web.ViewModels.LoginVM
 
-<div class="container pt-5">
-    <div class="card shadow border">
-        <div class="card-header bg-success bg-gradient ml-0 py-4">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="py-2 text-white">Login</h2>
-                </div>
-            </div>
+<div class="container pt-5 d-flex justify-content-center">
+    <div class="card shadow-lg border rounded-4" style="max-width: 450px; width: 100%;">
+        <div class="card-header bg-success bg-gradient text-center py-4 rounded-top-4">
+            <h2 class="text-white fw-bold">Login</h2>
         </div>
         <div class="card-body p-4">
-            <div class="row">
-                <div class="col-md-12">
-                    <section>
-                        <form method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger" ></div>
-                            <div class="form-floating mb-3">
-                                <input asp-for="Email" class="form-control" aria-required="true" />
-                                <label asp-for="Email" class="form-label"></label>
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-                            <div class="form-floating mb-3">
-                                <input asp-for="Password" class="form-control" aria-required="true" />
-                                <label asp-for="Password" class="form-label"></label>
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
-                            <div class="checkbox mb-3">
-                                <input class="form-check-input" asp-for="RememberMe" />
-
-                                <label class="form-label">
-                                    Remember Me
-                                </label>
-                            </div>
-                            <div>
-                                <button type="submit" class="w-100 btn btn-lg btn-outline-success">Log in</button>
-                            </div>
-                            <div class="d-flex justify-content-between pt-2">
-                                <p>
-                                    <a asp-action="ForgotPassword">Forgot your password?</a>
-                                </p>
-                                <p>
-                                    <a asp-action="Register">Register as a new user</a>
-                                </p>
-                            </div>
-                        </form>
-                    </section>
+            <form method="post" class="needs-validation" novalidate>
+                <input asp-for="RedirectUrl" type="hidden" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" id="email" placeholder="name@example.com" required />
+                    <label for="email">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-
-            </div>
+                
+                <div class="form-floating mb-3">
+                    <input asp-for="Password" class="form-control" id="password" type="password" placeholder="Password" required />
+                    <label for="password">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="showPassword" onclick="togglePasswordVisibility()" />
+                    <label class="form-check-label" for="showPassword">Show Password</label>
+                </div>
+                
+                <div class="form-check mb-3">
+                    <input class="form-check-input" asp-for="RememberMe" id="rememberMe" />
+                    <label class="form-check-label" for="rememberMe">Remember Me</label>
+                </div>
+                
+                <button type="submit" class="btn btn-success w-100 py-2 fw-bold">Log in</button>
+                
+                <div class="d-flex justify-content-between pt-3">
+                    <a asp-action="ForgotPassword" class="text-decoration-none">Forgot your password?</a>
+                    <a asp-action="Register" asp-route-returnUrl="@Model.RedirectUrl" class="text-decoration-none">Register</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        function togglePasswordVisibility() {
+            var password = document.getElementById("password");
+            password.type = password.type === "password" ? "text" : "password";
+        }
+    </script>
 }
