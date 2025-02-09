@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft . AspNetCore . Authorization ;
+using Microsoft.AspNetCore.Mvc;
 using NewHuylebronVilla . Application . Common . Interface ;
 using NewHuylebronVilla.Domain.Entities;
 using NewHuylebronVilla.Infrastructure.Data;
 
 namespace TheNewHuylebronVilla.Web.Controllers
-{
+{  [Authorize]
     public class VillaController : Controller
     {
         private readonly IUnitOfWork _unitOfWork ;

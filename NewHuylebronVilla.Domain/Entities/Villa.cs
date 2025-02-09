@@ -27,7 +27,7 @@ namespace NewHuylebronVilla.Domain.Entities
 
       
 
-        // [NotMapped]
-        // public bool IsAvailable { get; set; } = true;
+         [NotMapped]
+        public bool IsAvailable { get; set; } = true;
     }
 }

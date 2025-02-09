@@ -38,9 +38,53 @@ public class AccountController : Controller
 
      return View(loginVM);
  }
-
- public IActionResult Register()
+ 
+ [HttpPost]
+ public async Task<IActionResult> Login(LoginVM loginVM)
  {
+     if (ModelState.IsValid)
+     {
+         var result = await _signInManager
+             .PasswordSignInAsync(loginVM.Email, loginVM.Password, loginVM.RememberMe, lockoutOnFailure:false);
+
+
+         if (result.Succeeded)
+         {
+            
+             
+             if (string.IsNullOrEmpty(loginVM.RedirectUrl))
+             {
+                 return RedirectToAction("Index", "Home");
+             }
+             else
+             {
+                 return LocalRedirect(loginVM.RedirectUrl);
+             }
+         }
+         else
+         {
+             ModelState.AddModelError("", "Invalid login attempt.");
+         }
+     }
+
+     return View(loginVM);
+ }
+ public async Task<IActionResult> Logout()
+ {
+     await _signInManager.SignOutAsync();
+     return RedirectToAction("Index", "Home");
+ }
+ 
+ public IActionResult AccessDenied()
+ {
+     return View();
+ }
+ 
+
+ public IActionResult Register(string returnUrl = null)
+ {
+     
+     returnUrl ??= Url.Content("~/");
      if (!_roleManager.RoleExistsAsync(Claim.Role_Admin).GetAwaiter().GetResult())
      {
          _roleManager.CreateAsync(new IdentityRole(Claim.Role_Admin)).Wait();
@@ -53,7 +97,9 @@ public class AccountController : Controller
          {
              Text = x.Name,
              Value = x.Name
-         })
+         }),
+            RedirectUrl = returnUrl
+         
      };
 
      return View(registerVM);
@@ -62,44 +108,47 @@ public class AccountController : Controller
  [HttpPost]
  public async Task<IActionResult> Register(RegisterVM registerVM)
  {
-     ApplicationUser user = new()
+     if ( ModelState . IsValid )
      {
-         Name = registerVM.Name,
-         Email = registerVM.Email,
-         PhoneNumber = registerVM.PhoneNumber,
-         NormalizedEmail = registerVM.Email.ToUpper(),
-         EmailConfirmed = true,
-         UserName = registerVM.Email,
-         CreatedAt = DateTime.Now
-     };
-
-     var result = await _userManager.CreateAsync(user, registerVM.Password);
-
-     if (result.Succeeded)
-     {
-         if (!string.IsNullOrEmpty(registerVM.Role))
+         ApplicationUser user = new()
          {
-             await _userManager.AddToRoleAsync(user, registerVM.Role);
-         }
-         else
+             Name = registerVM.Name,
+             Email = registerVM.Email,
+             PhoneNumber = registerVM.PhoneNumber,
+             NormalizedEmail = registerVM.Email.ToUpper(),
+             EmailConfirmed = true,
+             UserName = registerVM.Email,
+             CreatedAt = DateTime.Now
+         };
+
+         var result = await _userManager.CreateAsync(user, registerVM.Password);
+
+         if (result.Succeeded)
          {
-             await _userManager.AddToRoleAsync(user, Claim.Role_Customer);
+             if (!string.IsNullOrEmpty(registerVM.Role))
+             {
+                 await _userManager.AddToRoleAsync(user, registerVM.Role);
+             }
+             else
+             {
+                 await _userManager.AddToRoleAsync(user, Claim.Role_Customer);
+             }
+
+             await _signInManager.SignInAsync(user, isPersistent: false);
+             if (string.IsNullOrEmpty(registerVM.RedirectUrl))
+             {
+                 return RedirectToAction("Index", "Home");
+             }
+             else
+             {
+                 return LocalRedirect(registerVM.RedirectUrl);
+             }
          }
 
-         await _signInManager.SignInAsync(user,isPersistent:false);
-         if (string.IsNullOrEmpty(registerVM.RedirectUrl))
+         foreach (var error in result.Errors)
          {
-             return RedirectToAction("Index", "Home");
-         }
-         else
-         {
-             return LocalRedirect(registerVM.RedirectUrl);
-         }
-     }
-
-     foreach (var error in result.Errors)
-     {
-         ModelState.AddModelError("", error.Description);
+             ModelState.AddModelError("", error.Description);
+         } 
      }
 
      registerVM.RoleList = _roleManager.Roles.Select(x => new SelectListItem

@@ -1,11 +1,14 @@
-﻿using Microsoft . AspNetCore . Mvc ;
+﻿using System . Security . Claims ;
+using Microsoft . AspNetCore . Authorization ;
+using Microsoft . AspNetCore . Mvc ;
 using Microsoft . AspNetCore . Mvc . Rendering ;
 using NewHuylebronVilla . Application . Common . Interface ;
 using NewHuylebronVilla . Domain . Entities ;
 using TheNewHuylebronVilla . Web . ViewModels ;
+using Claim = NewHuylebronVilla . Application . Common . Division . Claim ;
 
 namespace TheNewHuylebronVilla.Web ;
-
+[Authorize(Roles = Claim.Role_Admin)]
 public class AmenityController : Controller
 {
         private readonly IUnitOfWork _unitOfWork;
