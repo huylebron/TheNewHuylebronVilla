@@ -26,8 +26,11 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-white" href="/">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                    @if (User.IsInRole(Claim.Role_Admin))
+                    {
+                        
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Quản lý
@@ -39,6 +42,13 @@
                                 <li><a class="dropdown-item" asp-controller="Booking" asp-action="Index" asp-route-status="@Claim.StatusApproved">Đặt biệt thự</a></li>
                             </ul>
                         </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Booking" asp-action="Index">Manage Bookings</a>
+                        </li>
+                    }
                         <partial name="_LoginPartial" />
                     </ul>
                 </div>
