@@ -1,6 +1,7 @@
 
 using System . Diagnostics ;
 using Microsoft . AspNetCore . Mvc ;
+using NewHuylebronVilla . Application . Common . Division ;
 using NewHuylebronVilla . Application . Common . Interface ;
 using TheNewHuylebronVilla . Web . Models ;
 using TheNewHuylebronVilla . Web . ViewModels ;
@@ -27,17 +28,22 @@ namespace TheNewHuylebronVilla.Web.Controllers
             return View(homeVM);
         }
 
-        [HttpPost]
         
+        [HttpPost]
         public IActionResult GetVillasByDate(int nights, DateOnly checkInDate) 
         {
             var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
+            var villaNumbersList = _unitOfWork.VillaNumber.GetAll().ToList();
+            var bookedVillas = _unitOfWork.Booking.GetAll(u => u.Status == Claim.StatusApproved ||
+                                                               u.Status == Claim.StatusCheckedIn).ToList();
+
+
             foreach (var villa in villaList)
             {
-                if (villa.Id % 2 == 0)
-                {
-                    villa.IsAvailable = false;
-                }
+                int roomAvailable = Claim.VillaRoomsAvailable_Count
+                    (villa.Id, villaNumbersList, checkInDate, nights, bookedVillas);
+
+                villa.IsAvailable = roomAvailable > 0 ? true : false;
             }
             HomeVM homeVM = new()
             {

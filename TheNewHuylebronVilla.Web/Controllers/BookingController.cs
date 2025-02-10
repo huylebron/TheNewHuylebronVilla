@@ -109,7 +109,7 @@ public IActionResult BookingConfirmation(int bookingId)
 
         if (session.PaymentStatus == "paid")
         {
-            _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, Claim.StatusApproved);
+            _unitOfWork.Booking.UpdateStatus(bookingFromDb.Id, Claim.StatusApproved,0);
             _unitOfWork.Booking.UpdateStripePaymentID(bookingFromDb.Id,session.Id,session.PaymentIntentId);
             _unitOfWork.Save();
         }
