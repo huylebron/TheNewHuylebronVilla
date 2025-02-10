@@ -40,8 +40,8 @@
                     </select>
                 </div>
                 <div class="col-md-4 text-end">
-                    <button type="button" class="btn btn-success px-4 py-2 rounded shadow-sm">
-                        <i class="bi bi-search"></i> Check Availability
+                    <button type="button" onclick="fnLoadVillaList()" class="btn btn-success btn-block">
+                        <i class="bi bi-search"></i>  &nbsp;Check Availability
                     </button>
                 </div>
             </div>
@@ -68,6 +68,20 @@
                                     <span class="text-warning fw-bold fs-5">USD @villa.Price.ToString("c")</span>
                                 </div>
                             </div>
+                            @if (Model.CheckInDate > DateOnly.FromDateTime(DateTime.Now))
+                            {
+                                if (villa.IsAvailable)
+                                {
+                                    <a class="btn btn-success form-control btn-block"> dặt ngay
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-outline-danger disabled form-control btn-block">
+                                        đã đặt
+                                    </a>
+                                }
+                            }
                         </div>
                     </div>
                 </div>
@@ -96,19 +110,24 @@
                                                 }
                                             </ul>
                                         }
-                                        <p class="fw-bold">Max Occupancy: @villa.Occupancy adults</p>
-                                        <p class="fw-bold">Villa Size: @villa.Sqft sqft</p>
-                                        <p class="text-warning fw-bold">USD @villa.Price.ToString("c") / night</p>
+                                      
                                     </div>
+                                        
+                                    <p class="fw-bold">Max Occupancy: @villa.Occupancy adults</p>
+                                    <p class="fw-bold">Villa Size: @villa.Sqft sqft</p>
+                                    <p class="text-warning fw-bold">USD @villa.Price.ToString("c") / night</p>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                                
                             </div>
                         </div>
+                          
                     </div>
                 </div>
+                
             }
         </div>
     </div>
 </div>
+
+
+}
