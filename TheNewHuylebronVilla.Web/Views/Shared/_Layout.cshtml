@@ -1,3 +1,4 @@
+@using NewHuylebronVilla.Application.Common.Division
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,7 +36,7 @@
                                 <li><a class="dropdown-item" asp-controller="Villa" asp-action="Index">Biệt thự</a></li>
                                 <li><a class="dropdown-item" asp-controller="VillaNumber" asp-action="Index">Mã số biệt thự</a></li>
                                 <li><a class="dropdown-item" asp-controller="Amenity" asp-action="Index">Tiện ích</a></li>
-                                <li><a class="dropdown-item" asp-controller="Booking" asp-action="Index">Đặt biệt thự</a></li>
+                                <li><a class="dropdown-item" asp-controller="Booking" asp-action="Index" asp-route-status="@Claim.StatusApproved">Đặt biệt thự</a></li>
                             </ul>
                         </li>
                         <partial name="_LoginPartial" />
