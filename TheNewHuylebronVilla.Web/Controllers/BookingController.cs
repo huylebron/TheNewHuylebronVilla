@@ -3,6 +3,7 @@ using Microsoft . AspNetCore . Authorization ;
 using Microsoft . AspNetCore . Mvc ;
 using NewHuylebronVilla . Application . Common . Interface ;
 using NewHuylebronVilla . Domain . Entities ;
+using Claim = NewHuylebronVilla . Application . Common . Division . Claim ;
 
 namespace TheNewHuylebronVilla.Web.Controllers ;
 
@@ -35,6 +36,26 @@ public class BookingController : Controller
         };
         booking.TotalCost = booking.Villa.Price * nights;
         return View(booking);
+    }
+    [Authorize]
+    [HttpPost]
+    public IActionResult FinalizeBooking(Booking booking)
+    {
+        var villa = _unitOfWork.Villa.Get(u => u.Id == booking.VillaId);
+        booking.TotalCost = villa.Price * booking.Nights;
+
+        booking.Status=Claim.StatusPending;
+        booking.BookingDate = DateTime.Now;
+
+        _unitOfWork.Booking.Add(booking);
+        _unitOfWork.Save();
+        return RedirectToAction(nameof(BookingConfirmation), new { bookingId = booking.Id });
+    }
+
+    [Authorize]
+    public IActionResult BookingConfirmation(int bookingId)
+    {
+        return View(bookingId);
     }
    
 }
