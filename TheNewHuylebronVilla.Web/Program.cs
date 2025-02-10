@@ -4,6 +4,7 @@ using NewHuylebronVilla . Application . Common . Interface ;
 using NewHuylebronVilla . Domain . Entities ;
 using NewHuylebronVilla.Infrastructure.Data;
 using NewHuylebronVilla . Infrastructure . Repository ;
+using Stripe ;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,7 @@ builder.Services.Configure<IdentityOptions>(option =>
 });
 
 var app = builder.Build();
+StripeConfiguration.ApiKey=builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
