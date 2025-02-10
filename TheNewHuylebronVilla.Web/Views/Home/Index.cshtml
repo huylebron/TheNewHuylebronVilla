@@ -1,133 +1,97 @@
 ﻿@model TheNewHuylebronVilla.Web.ViewModels.HomeVM
-<div class="container py-4">
-    <!-- Carousel -->
-    <div id="carouselExampleIndicators" class="carousel slide mb-4" data-bs-ride="carousel">
+
+
+
+
+
+<div>
+    <div id="carouselExampleIndicators" class="carousel slide">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
-        <div class="carousel-inner rounded shadow">
+        <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="/Images/VillaImg/slide1.jpg" class="d-block w-100 rounded" alt="Slide 1">
+                <img src="/Images/VillaImg/slide1.jpg" class="d-block w-100" alt="...">
             </div>
             <div class="carousel-item">
-                <img src="/Images/VillaImg/slide2.jpg" class="d-block w-100 rounded" alt="Slide 2">
+                <img src="/Images/VillaImg/slide2.jpg" class="d-block w-100" alt="...">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
         </button>
     </div>
+    <form method="post" style="background-color: white"
+          asp-action="GetVillasByDate" >
+        <div class="row p-0 mx-0 py-4">
 
-    <!-- Booking Form -->
-    <div class="bg-light p-4 rounded shadow">
-        <h4 class="mb-3 text-success">Check Availability</h4>
-        <form method="post">
-            <div class="row g-3 align-items-end">
-                <div class="col-md-5">
-                    <label class="form-label">Check In Date</label>
-                    <input asp-for="CheckInDate" type="date" class="form-control rounded shadow-sm">
+            <div class="col-12 col-md-5  offset-md-1 pl-2  pr-2 pr-md-0">
+                <div class="form-group">
+                    <label>Check In Date</label>
+                    <input asp-for="CheckInDate" type="date" class="form-control" />
                 </div>
-                <div class="col-md-3">
-                    <label class="form-label">No. of Nights</label>
-                    <select class="form-select rounded shadow-sm">
-                        @for(var i = 1; i < 11; i++) {
+            </div>
+
+            <div class="col-8 col-md-3 pl-2 pr-2">
+                <div class="form-group">
+                    <label>No. of nights</label>
+                    <select class="form-select" asp-for="Nights">
+                        @for(var i = 1; i < 11; i++)
+                        {
                             <option value="@i">@i</option>
                         }
                     </select>
                 </div>
-                <div class="col-md-4 text-end">
+            </div>
+
+            <div class="col-4 col-md-2 pt-4 pr-2">
+                <div class="form-group">
                     <button type="button" onclick="fnLoadVillaList()" class="btn btn-success btn-block">
-                        <i class="bi bi-search"></i>  &nbsp;Check Availability
+                        <i class="bi bi-search"></i>  &nbsp; Check Availability
                     </button>
+
                 </div>
             </div>
-        </form>
-    </div>
 
-    <!-- Villas List -->
-    <div id="VillasList" class="mt-5">
-        <div class="row g-4">
-            @foreach(var villa in Model.VillaList) {
-                <div class="col-lg-6">
-                    <div class="card border-0 shadow-sm rounded overflow-hidden">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="@villa.ImageUrl" class="img-fluid rounded-start" alt="@villa.Name">
-                            </div>
-                            <div class="col-md-8 p-3">
-                                <h5 class="text-success">@villa.Name</h5>
-                                <p class="small">@Html.Raw(villa.Description)</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#exampleModal-@(villa.Id)">
-                                        Details
-                                    </button>
-                                    <span class="text-warning fw-bold fs-5">USD @villa.Price.ToString("c")</span>
-                                </div>
-                            </div>
-                            @if (Model.CheckInDate > DateOnly.FromDateTime(DateTime.Now))
-                            {
-                                if (villa.IsAvailable)
-                                {
-                                    <a class="btn btn-success form-control btn-block"> dặt ngay
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a class="btn btn-outline-danger disabled form-control btn-block">
-                                        đã đặt
-                                    </a>
-                                }
-                            }
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal for Villa Details -->
-                <div class="modal fade" id="exampleModal-@(villa.Id)" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-success">Villa Details</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <img src="@villa.ImageUrl" class="img-fluid rounded" alt="@villa.Name">
-                                    </div>
-                                    <div class="col-md-7">
-                                        <h4 class="text-warning">@villa.Name</h4>
-                                        <p>@Html.Raw(villa.Description)</p>
-                                        @if(villa.VillaAmenity != null && villa.VillaAmenity.Count() > 0) {
-                                            <h5 class="text-secondary">Amenities</h5>
-                                            <ul>
-                                                @foreach(var amenity in villa.VillaAmenity) {
-                                                    <li>@amenity.Name</li>
-                                                }
-                                            </ul>
-                                        }
-                                      
-                                    </div>
-                                        
-                                    <p class="fw-bold">Max Occupancy: @villa.Occupancy adults</p>
-                                    <p class="fw-bold">Villa Size: @villa.Sqft sqft</p>
-                                    <p class="text-warning fw-bold">USD @villa.Price.ToString("c") / night</p>
-                                </div>
-                                
-                            </div>
-                        </div>
-                          
-                    </div>
-                </div>
-                
-            }
         </div>
-    </div>
+        <partial name="_VillaList" model="Model"/>
+    </form>
 </div>
 
+@section scripts{
+    <script>
+        function fnLoadVillaList() {
+            $('.spinner').show();
+            var objData = {
+                checkInDate: $("#CheckInDate").val(),
+                nights: $("#Nights").val()
+            };
 
+        $.ajax({
+                type: "POST",
+                data:objData,
+                url: "@Url.Action("GetVillasByDate","Home")",
+                success: function (data) {
+                    $("#VillasList").empty();
+                    $("#VillasList").html(data);
+                    $('.spinner').hide();
+                },
+                failure: function (response) {
+                    $('.spinner').hide();
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    $('.spinner').hide();
+                    alert(response.responseText);
+                }
+            });
+        }
+        </script>
 }

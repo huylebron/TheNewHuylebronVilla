@@ -16,6 +16,8 @@ namespace NewHuylebronVilla.Infrastructure.Data
          public DbSet<Amenity> Amenities { get; set; }
          
          public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+         
+         public DbSet<Booking> Bookings { get; set; }
         
 
 

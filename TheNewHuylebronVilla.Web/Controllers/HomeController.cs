@@ -26,16 +26,10 @@ namespace TheNewHuylebronVilla.Web.Controllers
             };
             return View(homeVM);
         }
-        
-        [HttpPost]
-        public IActionResult Index(HomeVM homeVM)
-        {
-            homeVM.VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
-     
-            return View(homeVM);
-        }
 
-        public IActionResult GetVillasByDate(int nights, DateOnly checkInDate)
+        [HttpPost]
+        
+        public IActionResult GetVillasByDate(int nights, DateOnly checkInDate) 
         {
             var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
             foreach (var villa in villaList)
@@ -55,17 +49,14 @@ namespace TheNewHuylebronVilla.Web.Controllers
             return PartialView("_VillaList",homeVM);
         }
 
-      
-
         public IActionResult Privacy()
         {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View( );
+            return View();
         }
     }
 }
