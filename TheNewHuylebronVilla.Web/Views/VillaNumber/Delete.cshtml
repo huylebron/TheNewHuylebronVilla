@@ -1,10 +1,10 @@
 ﻿@model TheNewHuylebronVilla.Web.ViewModels.VillaNumberVM
 
 <div class="w-100 card border-0 p-4">
-    <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #28a745, #218838);">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">xóa mã số biệt thự  </h2>
+                <h2 class="text-white py-2">xóa số biệt thự</h2>
             </div>
         </div>
     </div>
@@ -16,14 +16,14 @@
                 <div class="form-floating py-1 col-12">
                     <select disabled asp-for="@Model.VillaNumber.VillaId" asp-items="@Model.VillaList"
                             class="form-select border shadow">
-                        <option disabled selected>--chọn biệt thự--</option>
+                        <option disabled selected>--Chọn biệt thự--</option>
                     </select>
-                    <label asp-for="VillaNumber.VillaId" class="ms-2">biệt thự</label>
+                    <label asp-for="VillaNumber.VillaId" class="ms-2">biệt thự </label>
                     <span asp-validation-for="VillaNumber.VillaId" class="text-danger"></span>
                 </div>
                 <div class="form-floating py-1 col-12">
                     <input asp-for="VillaNumber.Villa_Number" disabled class="form-control border shadow" />
-                    <label asp-for="VillaNumber.Villa_Number" class="ms-2">mã số </label>
+                    <label asp-for="VillaNumber.Villa_Number" class="ms-2">số biệt thự </label>
                     <span asp-validation-for="VillaNumber.Villa_Number" class="text-danger"></span>
                 </div>
                 <div class="form-floating py-1 col-12">
@@ -34,12 +34,12 @@
                 <div class="row pt-2">
                     <div class="col-6 col-md-3">
                         <button type="submit" class="btn btn-danger w-100">
-                            <i class="bi bi-check-circle"></i> xóa
+                            <i class="bi bi-check-circle"></i> Xóa
                         </button>
                     </div>
                     <div class="col-6 col-md-3">
                         <a asp-controller="VillaNumber" asp-action="Index" class="btn btn-secondary w-100">
-                            <i class="bi bi-x-circle"></i> hủy
+                            <i class="bi bi-x-circle"></i> Hủy
                         </a>
                     </div>
                 </div>
@@ -52,4 +52,4 @@
     @{
         <partial name="_ValidationScriptsPartial" />
     }
-} 
+}

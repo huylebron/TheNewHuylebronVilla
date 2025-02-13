@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using NewHuylebronVilla.Application.Common.Division
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,86 +14,118 @@
     <link rel="stylesheet" href="/css/spinner.css"/>
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="/css/apexcharts.css"/>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #ffffff; /* Nền trắng */
+            color: #000000; /* Màu chữ đen */
+        }
+
+        .navbar {
+            background-color: #f8f9fa; /* Thanh điều hướng màu sáng */
+            padding: 1rem;
+        }
+
+        .navbar-brand img {
+            width: 40px;
+        }
+
+        .sidebar {
+            background-color: #e9ecef; /* Sidebar màu sáng hơn */
+            min-height: 100vh;
+        }
+
+        .nav-link {
+            color: #212529; /* Màu chữ tối */
+            padding: 10px 15px;
+            transition: background 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: #ced4da;
+            color: #000;
+            border-radius: 5px;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .main-content {
+            background-color: #ffffff; /* Nền trắng */
+            padding: 20px;
+            min-height: 100vh;
+        }
+    </style>
 </head>
 <body>
-    <!-- Header Navigation -->
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow">
-            <div class="container-fluid d-flex justify-content-between">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">huylebron</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-            <partial name="_LoginPartialAdmin" />
-        </nav>
-    </header>
-    <div class="container-fluid">
-        <div class="loading spinner" style="display:none;"></div>
-        <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse">
-                <div class="position-static pt-3">
-                    <ul class="navbar-nav">
-                        <li>
-                            <div class="text-muted small fw-bold text-uppercase px-3">
-                                Menu
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Dashboard" asp-action="Index">
-                                <span class="me-2"><i class="bi bi-speedometer2"></i></span>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <div class="text-muted small fw-bold text-uppercase px-3 mt-2">
-                                Content Management
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Villa" asp-action="Index">
-                                <span class="me-2"><i class="bi bi-house-door"></i></span>
-                                <span>Villa</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="VillaNumber" asp-action="Index">
-                                <span class="me-2"><i class="bi bi-list-ol"></i></span>
-                                <span>VillaNumber</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Amenity" asp-action="Index">
-                                <span class="me-2"><i class="bi bi-building"></i></span>
-                                <span>Amenity</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Booking" asp-action="Index" >
-                                <span class="me-2"><i class="bi bi-journal-plus"></i></span>
-                                <span>Booking</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 w-100">
-                    <partial name="_Notification" />
-                    @RenderBody()
-                </div>
-            </main>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light border-bottom shadow">
+        <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                huylebron
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
         </div>
+        <partial name="_LoginPartialAdmin" />
+    </nav>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+            <div class="position-static pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <span class="text-muted small fw-bold text-uppercase px-3">Menu</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Dashboard" asp-action="Index">
+                            <i class="bi bi-speedometer2 me-2"></i> Thống kê
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <span class="text-muted small fw-bold text-uppercase px-3 mt-2">Quản lý nội dung</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Villa" asp-action="Index">
+                            <i class="bi bi-house-door me-2"></i> Biệt thự
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="VillaNumber" asp-action="Index">
+                            <i class="bi bi-list-ol me-2"></i> Số biệt thự
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Amenity" asp-action="Index">
+                            <i class="bi bi-building me-2"></i> Tiện ích
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Booking" asp-action="Index" asp-route-status="@Claim.StatusApproved">
+                            <i class="bi bi-journal-plus me-2"></i> Quản lý đơn
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 w-100">
+                <partial name="_Notification" />
+                @RenderBody()
+            </div>
+        </main>
     </div>
+</div>
 
-    <!-- Scripts -->
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js" integrity="sha512-sH8JPhKJUeA9PWk3eOcOl8U+lfZTgtBXD41q6cO/slwxGHCxKcW45K4oPCUhHG7NMB4mbKEddVmPuTXtpbCbFA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="/js/site.js" asp-append-version="true"></script>
-    <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="/js/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="js/apexcharts.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" asp-append-version="true"></script>
+<script src="~/js/apexcharts.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

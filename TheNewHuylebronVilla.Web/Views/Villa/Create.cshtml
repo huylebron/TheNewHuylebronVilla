@@ -1,101 +1,81 @@
 ﻿@model NewHuylebronVilla.Domain.Entities.Villa
 
-<div class="card shadow-lg border-0 rounded-lg">
-    <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #28a745, #218838);" >
-        <h2 class="text-white fw-bold"><i class="bi bi-building"></i> Thêm Biệt Thự Mới </h2>
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Tạo Villa</h2>
+            </div>
+        </div>
     </div>
-    <div class="card-body p-4">
-        <form method="post" class="row g-3 needs-validation" novalidate enctype="multipart/form-data">
-            <div asp-validation-summary="All" class="text-danger"></div>
-
-            <div class="form-floating col-12">
-                <input asp-for="Name" class="form-control border shadow-sm" placeholder="Villa Name" required />
-                <label asp-for="Name" class="ms-2"><i class="bi bi-house-door-fill"></i> Tên</label>
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating col-12">
-                <textarea asp-for="Description" class="form-control border shadow-sm" placeholder="Description" style="height: 120px;" required></textarea>
-                <label asp-for="Description" class="ms-2"><i class="bi bi-card-text"></i> Mô tả </label>
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating col-md-6">
-                <input asp-for="Price" type="number" class="form-control border shadow-sm" placeholder="Price" required min="1" />
-                <label asp-for="Price" class="ms-2"><i class="bi bi-cash-coin"></i> Giá cả ($) </label>
-                <span asp-validation-for="Price" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating col-md-6">
-                <input asp-for="Sqft" type="number" class="form-control border shadow-sm" placeholder="Diện tích" required min="1" />
-                <label asp-for="Sqft" class="ms-2"><i class="bi bi-rulers"></i> Diện tích (ft²) </label>
-                <span asp-validation-for="Sqft" class="text-danger"></span>
-            </div>
-
-            <div class="form-floating col-md-6">
-                <input asp-for="Occupancy" type="number" class="form-control border shadow-sm" placeholder="Sức chứa" required min="1" />
-                <label asp-for="Occupancy" class="ms-2"><i class="bi bi-people-fill"></i> Sức chứa </label>
-                <span asp-validation-for="Occupancy" class="text-danger"></span>
-            </div>
-
-            <!-- Ảnh -->
-            <div class="col-md-6">
-                <label class="form-label"><i class="bi bi-image-fill"></i> Ảnh Biệt Thự</label>
-                <input asp-for="Image" type="file" class="form-control border shadow-sm" id="imageUpload" accept="image/*" />
-                <input asp-for="ImageUrl" type="hidden" id="imageUrlHidden" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                <div class="mt-3">
-                    <img id="previewImage" src="@Model?.ImageUrl" class="img-thumbnail d-none" width="150" />
+    <div class="card-body border p-4">
+        <form method="post" class="row" enctype="multipart/form-data">
+            <div class="p-3">
+                @* <div asp-validation-summary="All"></div>  *@
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Name" class="form-control border shadow" />
+                    <label asp-for="Name" class="ms-2">Tên</label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-            </div>
-
-            <div class="row pt-3 justify-content-center">
-                <div class="col-6 col-md-3">
-                    <button type="submit" class="btn btn-success w-100 shadow-sm">
-                        <i class="bi bi-check-circle"></i> Tạo
-                    </button>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Description" class="form-control border shadow" />
+                    <label asp-for="Description" class="ms-2">Mô tả</label>
+                    <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
-                <div class="col-6 col-md-3">
-                    <a asp-controller="Villa" asp-action="Index" class="btn btn-secondary w-100 shadow-sm">
-                        <i class="bi bi-x-circle"></i> Hủy
-                    </a>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Price" class="form-control border shadow" />
+                    <label asp-for="Price" class="ms-2">Giá</label>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Sqft" class="form-control border shadow" />
+                    <label asp-for="Sqft" class="ms-2">Diện tích</label>
+                    <span asp-validation-for="Sqft" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Occupancy" class="form-control border shadow" />
+                    <label asp-for="Occupancy" class="ms-2">Sức chứa</label>
+                    <span asp-validation-for="Occupancy" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="ImageUrl" hidden class="form-control border shadow" />
+                    <input asp-for="Image" class="form-control border shadow" onchange="previewImage(event)" />
+                    <label asp-for="ImageUrl" class="ms-2">Hình ảnh</label>
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <img id="imagePreview" src="#" alt="Image Preview" style="display:none; max-width: 200px; height: auto;" />
+                </div>
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="bi bi-check-circle"></i> Tạo
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Villa" asp-action="Index" class="btn btn-secondary w-100">
+                            <i class="bi bi-x-circle"></i> Hủy
+                        </a>
+                    </div>
                 </div>
             </div>
         </form>
     </div>
 </div>
 
-<style>
-    /* Cải thiện hiển thị form */
-    .form-floating input, .form-floating textarea {
-        border-radius: 10px;
-        padding-left: 15px;
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
     }
-
-    /* Hiệu ứng hover */
-    .btn:hover {
-        opacity: 0.9;
-    }
-
-    /* Tạo khoảng cách giữa form và nút */
-    .row .btn {
-        padding: 10px;
-        font-size: 16px;
-    }
-</style>
-
-<script>
-    document.getElementById("imageUpload").addEventListener("change", function(event) {
-        let reader = new FileReader();
-        reader.onload = function() {
-            let preview = document.getElementById("previewImage");
-            preview.src = reader.result;
-            preview.classList.remove("d-none");
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    });
-</script>
-
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function(){
+                var output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 }

@@ -1,95 +1,66 @@
 ﻿@model IEnumerable<NewHuylebronVilla.Domain.Entities.Amenity>
 
-<div class="card border-0 shadow-lg rounded-4">
-    <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #28a745, #218838); border-radius: 10px 10px 0 0;">
-        <h2 class="fw-bold mb-0">
-            <i class="bi bi-stars"></i> Danh sách Tiện Ích
-        </h2>
-    </div>
-    <div class="card-body p-4">
-        <div class="d-flex justify-content-between mb-3">
-            <input type="text" id="searchBox" class="form-control w-25 shadow-sm rounded" placeholder="🔍 Tìm kiếm tiện ích...">
-            <a asp-controller="Amenity" asp-action="Create" class="btn btn-lg btn-success shadow-sm px-4 py-2 rounded-pill">
-                <i class="bi bi-plus-circle"></i> Thêm Tiện Ích
-            </a>
+<div class="w-100 card border-0 p-4 shadow-sm">
+    <div class="card-header bg-success bg-gradient ml-0 py-3 rounded-top">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2"><i class="bi bi-list"></i> Danh Sách Tiện Nghi</h2>
+            </div>
         </div>
-        <div class="table-responsive" style="max-height: 500px; border-radius: 10px; overflow-y: auto;">
-            <table class="table table-hover align-middle text-center table-bordered shadow-sm" id="amenityTable">
-                <thead class="table-success text-dark">
+    </div>
+    <div class="card-body border p-4 rounded-bottom" style="max-height: 500px; overflow-y: auto;">
+
+        <div class="row pb-3">
+            <div class="col-6 text-start">
+                <input type="text" id="searchBox" class="form-control w-50" placeholder="🔍 Tìm kiếm biệt thự...">
+            </div>
+            <div class="col-6 text-end">
+                <a asp-controller="Villa" asp-action="Create" class="btn btn-secondary">
+                    <i class="bi bi-plus-circle"></i> Tạo biệt thự Mới
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th><i class="bi bi-hash"></i> Id</th>
+                    <th><i class="bi bi-card-text"></i> Tên</th>
+                    <th><i class="bi bi-house"></i> Tên Biệt Thự</th>
+                    <th><i class="bi bi-gear"></i> Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var obj in Model)
+                {
                     <tr>
-                        <th class="py-3 sticky-header">🏷️ Tên Tiện Ích</th>
-                        <th class="py-3 sticky-header">🏠 Biệt Thự</th>
-                        <th class="py-3 sticky-header">⚙️ Hành động</th>
+                        <td>@obj.Id</td>
+                        <td>@obj.Name</td>
+                        <td>@obj.Villa.Name</td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-controller="Amenity" asp-action="Update" asp-route-amenityId="@obj.Id"
+                                   class="btn btn-success mx-2">
+                                    <i class="bi bi-pencil-square"></i> Sửa
+                                </a>
+                                <a asp-controller="Amenity" asp-action="Delete" asp-route-amenityId="@obj.Id"
+                                   class="btn btn-danger mx-2">
+                                    <i class="bi bi-trash-fill"></i> Xóa
+                                </a>
+                            </div>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Any())
-                    {
-                        @foreach (var obj in Model)
-                        {
-                            <tr class="bg-light">
-                                <td class="py-3 text-success fw-bold">@obj.Name</td>
-                                <td class="py-3 text-start">@obj.Villa.Name</td>
-                                <td class="py-3">
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <a asp-controller="Amenity" asp-action="Update" asp-route-amenityId="@obj.Id"
-                                           class="btn btn-outline-success shadow-sm rounded">
-                                            <i class="bi bi-pencil-square"></i> Sửa
-                                        </a>
-                                        <a asp-controller="Amenity" asp-action="Delete" asp-route-amenityId="@obj.Id"
-                                           class="btn btn-outline-danger shadow-sm rounded">
-                                            <i class="bi bi-trash"></i> Xóa
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="3" class="text-center text-muted py-4">
-                                ⭐ Chưa có tiện ích nào được thêm.
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+                }
+            </tbody>
+        </table>
     </div>
-</div>
 
-<style>
-    /* Cố định tiêu đề bảng khi cuộn */
-    .sticky-header {
-        position: sticky;
-        top: 0;
-        background-color: #28a745 !important;
-        color: white !important;
-        z-index: 10;
-    }
-
-    /* Tạo hiệu ứng hover cho bảng */
-    .table-hover tbody tr:hover {
-        background-color: #f1f3f5 !important;
-        transition: 0.3s ease-in-out;
-    }
-
-    /* Cải thiện nút bấm */
-    .btn {
-        transition: all 0.2s ease-in-out;
-    }
-
-    .btn:hover {
-        opacity: 0.9;
-    }
-</style>
 
 <script>
-    // Chức năng tìm kiếm tiện ích
+    // Chức năng tìm kiếm biệt thự
     document.getElementById("searchBox").addEventListener("keyup", function () {
         let searchValue = this.value.toLowerCase();
-        let rows = document.querySelectorAll("#amenityTable tbody tr");
+        let rows = document.querySelectorAll("#villaTable tbody tr");
 
         rows.forEach(row => {
             let name = row.cells[0].textContent.toLowerCase();

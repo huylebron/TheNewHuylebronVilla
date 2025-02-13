@@ -1,84 +1,61 @@
 ﻿@model IEnumerable<NewHuylebronVilla.Domain.Entities.Villa>
 
-<div class="card border-0 shadow-lg rounded-4">
-    <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #28a745, #218838);">
-        <h2 class="fw-bold mb-0">
-            <i class="bi bi-house-door"></i> Danh sách Biệt Thự
-        </h2>
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2"><i class="bi bi-list"></i>Danh Sách biệt thự </h2>
+            </div>
+        </div>
     </div>
-    <div class="card-body p-4">
-        <div class="d-flex justify-content-between mb-3">
-            <input type="text" id="searchBox" class="form-control w-25" placeholder="🔍 Tìm kiếm biệt thự...">
-            <a asp-controller="Villa" asp-action="Create" class="btn btn-lg btn-success shadow-sm px-4 py-2 rounded-pill">
-                <i class="bi bi-plus-circle"></i> Thêm Biệt Thự
-            </a>
+    <div class="card-body border p-4" style="max-height: 500px; overflow-y: auto;">
+        <div class="row pb-3">
+            <div class="col-6 text-start">
+                <input type="text" id="searchBox" class="form-control w-50" placeholder="🔍 Tìm kiếm biệt thự...">
+            </div>
+            <div class="col-6 text-end">
+                <a asp-controller="Villa" asp-action="Create" class="btn btn-secondary">
+                    <i class="bi bi-plus-circle"></i> Tạo biệt thự Mới
+                </a>
+            </div>
         </div>
-        <div class="table-responsive" style="max-height: 500px;">
-            <table class="table table-hover align-middle text-center table-bordered" id="villaTable">
-                <thead class="table-success text-dark">
-                    <tr>
-                        <th class="py-3 sticky-header">🏠 Tên</th>
-                        <th class="py-3 sticky-header">💲 Giá cả</th>
-                        <th class="py-3 sticky-header">📏 Diện tích (ft²)</th>
-                        <th class="py-3 sticky-header">👥 Sức chứa</th>
-                        <th class="py-3 sticky-header">⚙️ Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Any())
-                    {
-                        @foreach (var obj in Model)
-                        {
-                            <tr>
-                                <td class="py-3 text-start fw-semibold">@obj.Name</td>
-                                <td class="py-3 text-success fw-bold">$@obj.Price.ToString("N0")</td>
-                                <td class="py-3 text-start">@obj.Sqft.ToString("N0") ft²</td>
-                                <td class="py-3 text-center">@obj.Occupancy</td>
-                                <td class="py-3">
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <a asp-controller="Villa" asp-action="Update" asp-route-villaId="@obj.Id"
-                                           class="btn btn-outline-success">
-                                            <i class="bi bi-pencil-square"></i> Sửa
-                                        </a>
-                                        <a asp-controller="Villa" asp-action="Delete" asp-route-villaId="@obj.Id"
-                                           class="btn btn-outline-danger">
-                                            <i class="bi bi-trash"></i> Xóa
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    }
-                    else
-                    {
-                        <tr>
-                            <td colspan="5" class="text-center text-muted py-4">
-                                🏡 Chưa có biệt thự nào được thêm.
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th class="py-3 sticky-header">🏠 Tên</th>
+                <th class="py-3 sticky-header">💲 Giá cả</th>
+                <th class="py-3 sticky-header">📏 Diện tích (m²)</th>
+                <th class="py-3 sticky-header">👥 Sức chứa</th>
+                <th class="py-3 sticky-header">⚙️ Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td>@obj.Name</td>
+                    <td>$@obj.Price.ToString("N0")</td>
+                    <td>@obj.Sqft.ToString("N0") m²</td>
+                    <td>@obj.Occupancy</td>
+                    <td>
+                        <div class="w-75 btn-group" role="group">
+                            <a asp-controller="Villa" asp-action="Update" asp-route-villaId="@obj.Id"
+                               class="btn btn-success mx-2">
+                                <i class="bi bi-pencil-square"></i> Sửa
+                            </a>
+                            <a asp-controller="Villa" asp-action="Delete" asp-route-villaId="@obj.Id"
+                               class="btn btn-danger mx-2">
+                                <i class="bi bi-trash-fill"></i> Xóa
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
     </div>
 </div>
-
-<style>
-    /* Cố định tiêu đề bảng khi cuộn */
-    .sticky-header {
-        position: sticky;
-        top: 0;
-        background-color: #28a745 !important;
-        color: white !important;
-        z-index: 10;
-    }
-
-    /* Tạo hiệu ứng hover cho bảng */
-    .table-hover tbody tr:hover {
-        background-color: #f8f9fa !important;
-    }
-</style>
-
 <script>
     // Chức năng tìm kiếm biệt thự
     document.getElementById("searchBox").addEventListener("keyup", function () {

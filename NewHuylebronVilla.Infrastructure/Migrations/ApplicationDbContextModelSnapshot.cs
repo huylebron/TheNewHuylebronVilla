@@ -183,68 +183,128 @@ namespace NewHuylebronVilla.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Private Pool",
+                            Name = "Hồ bơi riêng",
                             VillaId = 1
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Microwave",
+                            Name = "Lò vi sóng",
                             VillaId = 1
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Private Balcony",
+                            Name = "Ban công riêng",
                             VillaId = 1
                         },
                         new
                         {
                             Id = 4,
-                            Name = "1 king bed and 1 sofa bed",
+                            Name = "1 giường King và 1 ghế sofa giường",
                             VillaId = 1
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Private Plunge Pool",
+                            Name = "Hồ bơi riêng biệt",
                             VillaId = 2
                         },
                         new
                         {
                             Id = 6,
-                            Name = "Microwave and Mini Refrigerator",
+                            Name = "Lò vi sóng & tủ lạnh mini",
                             VillaId = 2
                         },
                         new
                         {
                             Id = 7,
-                            Name = "Private Balcony",
+                            Name = "Ban công riêng hướng vườn",
                             VillaId = 2
                         },
                         new
                         {
                             Id = 8,
-                            Name = "king bed or 2 double beds",
+                            Name = "1 giường King hoặc 2 giường đôi",
                             VillaId = 2
                         },
                         new
                         {
                             Id = 9,
-                            Name = "Private Pool",
+                            Name = "Hồ bơi vô cực",
                             VillaId = 3
                         },
                         new
                         {
                             Id = 10,
-                            Name = "Jacuzzi",
+                            Name = "Bồn tắm Jacuzzi",
                             VillaId = 3
                         },
                         new
                         {
                             Id = 11,
-                            Name = "Private Balcony",
+                            Name = "Ban công riêng hướng biển",
                             VillaId = 3
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Name = "Phòng tắm lộ thiên",
+                            VillaId = 4
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Name = "Quầy bar mini",
+                            VillaId = 4
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Name = "Sân vườn rộng rãi",
+                            VillaId = 5
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Name = "Khu vực BBQ ngoài trời",
+                            VillaId = 5
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Name = "Lò sưởi",
+                            VillaId = 6
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Name = "Ghế massage thư giãn",
+                            VillaId = 6
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Name = "Rạp chiếu phim riêng",
+                            VillaId = 7
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Name = "Bể sục nước nóng ngoài trời",
+                            VillaId = 7
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Name = "Thuyền kayak riêng",
+                            VillaId = 8
+                        },
+                        new
+                        {
+                            Id = 21,
+                            Name = "Ghế dài tắm nắng cạnh hồ",
+                            VillaId = 8
                         });
                 });
 
@@ -436,32 +496,82 @@ namespace NewHuylebronVilla.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Description = "Một không gian sang trọng với thiết kế đẳng cấp, mang lại sự thoải mái và tiện nghi tối đa. Hoàn hảo cho kỳ nghỉ thư giãn và tận hưởng không gian yên bình.",
                             ImageUrl = "https://placehold.co/600x400",
-                            Name = "Royal Villa",
+                            Name = "Biệt Thự Hoàng Gia",
                             Occupancy = 4,
-                            Price = 200.0,
-                            Sqft = 550
+                            Price = 250.0,
+                            Sqft = 600
                         },
                         new
                         {
                             Id = 2,
-                            Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Description = "Trải nghiệm đẳng cấp với hồ bơi riêng, không gian rộng rãi và đầy đủ tiện nghi. Lựa chọn hoàn hảo cho gia đình hoặc nhóm bạn cùng tận hưởng kỳ nghỉ lý tưởng.",
                             ImageUrl = "https://placehold.co/600x401",
-                            Name = "Premium Pool Villa",
+                            Name = "Biệt Thự Hồ Bơi Cao Cấp",
                             Occupancy = 4,
-                            Price = 300.0,
-                            Sqft = 550
+                            Price = 350.0,
+                            Sqft = 700
                         },
                         new
                         {
                             Id = 3,
-                            Description = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
+                            Description = "Không gian nghỉ dưỡng tuyệt vời với bể bơi riêng, ban công hướng biển và nội thất hiện đại. Đem đến trải nghiệm xa hoa và thư giãn tuyệt đối.",
                             ImageUrl = "https://placehold.co/600x402",
-                            Name = "Luxury Pool Villa",
+                            Name = "Biệt Thự Hồ Bơi Sang Trọng",
                             Occupancy = 4,
-                            Price = 400.0,
+                            Price = 500.0,
+                            Sqft = 900
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Thiết kế mở đón ánh nắng tự nhiên, tầm nhìn tuyệt đẹp ra biển xanh. Lý tưởng cho kỳ nghỉ trọn vẹn bên gia đình và bạn bè.",
+                            ImageUrl = "https://placehold.co/600x403",
+                            Name = "Biệt Thự Ven Biển",
+                            Occupancy = 6,
+                            Price = 600.0,
+                            Sqft = 1000
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "Một không gian xanh mát giữa thiên nhiên, kết hợp hồ bơi và khu vườn nhiệt đới riêng tư.",
+                            ImageUrl = "https://placehold.co/600x404",
+                            Name = "Biệt Thự Nhiệt Đới",
+                            Occupancy = 5,
+                            Price = 450.0,
+                            Sqft = 800
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Description = "Nằm giữa núi đồi hùng vĩ, căn biệt thự mang lại không gian nghỉ dưỡng yên bình với không khí trong lành.",
+                            ImageUrl = "https://placehold.co/600x405",
+                            Name = "Biệt Thự Cao Nguyên",
+                            Occupancy = 4,
+                            Price = 380.0,
                             Sqft = 750
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Description = "Hòa mình vào thiên nhiên với hồ bơi vô cực và nội thất hiện đại, sang trọng bậc nhất.",
+                            ImageUrl = "https://placehold.co/600x406",
+                            Name = "Biệt Thự Thiên Đường",
+                            Occupancy = 6,
+                            Price = 750.0,
+                            Sqft = 1200
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Description = "Biệt thự nằm ngay cạnh hồ lớn, không gian thoáng mát với khu vực thư giãn ngoài trời tuyệt đẹp.",
+                            ImageUrl = "https://placehold.co/600x407",
+                            Name = "Biệt Thự Mặt Hồ",
+                            Occupancy = 5,
+                            Price = 500.0,
+                            Sqft = 900
                         });
                 });
 
@@ -527,6 +637,56 @@ namespace NewHuylebronVilla.Infrastructure.Migrations
                         {
                             Villa_Number = 302,
                             VillaId = 3
+                        },
+                        new
+                        {
+                            Villa_Number = 401,
+                            VillaId = 4
+                        },
+                        new
+                        {
+                            Villa_Number = 402,
+                            VillaId = 4
+                        },
+                        new
+                        {
+                            Villa_Number = 501,
+                            VillaId = 5
+                        },
+                        new
+                        {
+                            Villa_Number = 502,
+                            VillaId = 5
+                        },
+                        new
+                        {
+                            Villa_Number = 601,
+                            VillaId = 6
+                        },
+                        new
+                        {
+                            Villa_Number = 602,
+                            VillaId = 6
+                        },
+                        new
+                        {
+                            Villa_Number = 701,
+                            VillaId = 7
+                        },
+                        new
+                        {
+                            Villa_Number = 702,
+                            VillaId = 7
+                        },
+                        new
+                        {
+                            Villa_Number = 801,
+                            VillaId = 8
+                        },
+                        new
+                        {
+                            Villa_Number = 802,
+                            VillaId = 8
                         });
                 });
 

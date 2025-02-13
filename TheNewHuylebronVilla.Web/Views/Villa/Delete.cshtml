@@ -1,78 +1,66 @@
 ﻿@model NewHuylebronVilla.Domain.Entities.Villa
 
-<div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-   <div class="card-header text-white text-center py-4" style="background: linear-gradient(135deg, #28a745, #218838);">
-          <h2 class="fw-bold mb-0">🏡 Xóa biệt thự</h2>
-      </div>
-
-    <div class="card-body p-4">
-        <form method="post" class="row g-4 needs-validation" enctype="multipart/form-data" novalidate>
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Xóa Villa</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <form method="post" class="row">
             <input asp-for="Id" hidden />
-            
-            <div class="col-md-8">
-                <div asp-validation-summary="All" class="text-danger small"></div>
-                
-                <div class="form-floating">
-                    <input asp-for="Name" class="form-control border rounded-3 shadow-sm" placeholder="Villa Name" disabled/>
-                    <label asp-for="Name" class="ms-2">🏠 Tên biệt thự</label>
+            <div class="col-10">
+            <div class="p-3">
+                @* <div asp-validation-summary="All"></div> *@
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Name" disabled class="form-control border shadow" />
+                    <label asp-for="Name" class="ms-2">Tên</label>
                 </div>
-                
-                <div class="form-floating mt-3">
-                    <textarea asp-for="Description" class="form-control border rounded-3 shadow-sm" placeholder="Description" style="height: 100px;" disabled></textarea>
-                    <label asp-for="Description" class="ms-2">📝 Tiêu đề</label>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Description" disabled class="form-control border shadow" />
+                    <label asp-for="Description" class="ms-2">Mô tả</label>
                 </div>
-
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input asp-for="Price" type="number" class="form-control border rounded-3 shadow-sm" placeholder="Price" disabled/>
-                            <label asp-for="Price" class="ms-2">💰 Giá cả ($)</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input asp-for="Sqft" type="number" class="form-control border rounded-3 shadow-sm" placeholder="Square Feet" disabled/>
-                            <label asp-for="Sqft" class="ms-2">📏 Diện tích (Sqft)</label>
-                        </div>
-                    </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Price" disabled class="form-control border shadow" />
+                    <label asp-for="Price" class="ms-2">Giá</label>
                 </div>
-
-                <div class="row mt-3">
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input asp-for="Occupancy" type="number" class="form-control border rounded-3 shadow-sm" placeholder="Occupancy" disabled/>
-                            <label asp-for="Occupancy" class="ms-2">👥 Sức chứa</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-floating">
-                            <input asp-for="ImageUrl" class="form-control border rounded-3 shadow-sm" placeholder="ImageUrl" disabled/>
-                        </div>
-                    </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Sqft" disabled class="form-control border shadow" />
+                    <label asp-for="Sqft" class="ms-2">Diện tích</label>
                 </div>
-
-                <div class="row pt-2 justify-content-center">
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Occupancy" disabled class="form-control border shadow" />
+                    <label asp-for="Occupancy" class="ms-2">Số người ở</label>
+                </div>
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="ImageUrl" disabled class="form-control border shadow" />
+                    <label asp-for="ImageUrl" class="ms-2">URL Hình ảnh</label>
+                </div>
+                <div class="row pt-2">
                     <div class="col-6 col-md-3">
                         <button type="submit" class="btn btn-danger w-100">
-                            <i class="bi bi-check-circle"></i> xóa
+                            <i class="bi bi-trash-fill"></i> Xóa
                         </button>
                     </div>
                     <div class="col-6 col-md-3">
                         <a asp-controller="Villa" asp-action="Index" class="btn btn-secondary w-100">
-                            <i class="bi bi-x-circle"></i> hủy
+                            <i class="bi bi-x-circle"></i> Hủy
                         </a>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-                <img src="@Model.ImageUrl" class="img-fluid rounded-3 shadow-sm" style="max-height: 250px; object-fit: cover; border: 1px solid #bbb9b9;" />
+            </div>
+            <div class="col-2">
+                <img src="@Model.ImageUrl" width="100%"
+                     style="border-radius:5px; border:1px solid #bbb9b9" />
             </div>
         </form>
     </div>
 </div>
 
-@section Scripts {
+@section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />
     }
