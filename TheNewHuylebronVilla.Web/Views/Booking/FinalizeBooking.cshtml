@@ -1,18 +1,18 @@
 ﻿@model NewHuylebronVilla.Domain.Entities.Booking
 
 
-<div class="container pt-4 mt-0 mt-lg-4">
+<<div class="container pt-4 mt-0 mt-lg-4">
     <div class="row" style="border: 1px solid #aaa;">
 
         <div class="col-12 col-lg-7 p-4 2 mt-4 mt-md-0">
             <div class="row p-1 my-1 " style="border-radius:20px; ">
                 <div class="col-6">
-                    <h3 class="text-success">Villa Details</h3>
+                    <h3 class="text-success">chi tiết </h3>
                 </div>
                 <div class="text-end col-6 ">
                     <a asp-controller="Home" asp-action="Index"
                                      class="btn btn-sm btn-outline-danger" style="width:200px;">
-                        <i class="bi bi-arrow-left-square"></i> &nbsp; Modify Selection
+                        <i class="bi bi-arrow-left-square"></i> &nbsp; quay trở lại
                     </a>
                 </div>
                 <hr />
@@ -20,7 +20,7 @@
                 <hr />
                 <div class="text-end">
                     <h4 class="text-danger font-weight-bold ">
-                        Booking Total :
+                        giá :
                         <span style="border-bottom:1px solid #ff6a00">
                             @Model.TotalCost.ToString("c")
                         </span>
@@ -37,45 +37,47 @@
                 <input asp-for="Nights" hidden />
                 <div class="row pt-1 mb-3 " style="border-radius:20px; ">
                     <div class="col-12">
-                        <h3 class="text-success">Enter Booking Details</h3>
+                        <h3 class="text-success">chi tiết đơn đặt</h3>
                     </div>
                 </div>
 
                 <div class="form-group pt-0">
-                    <label asp-for=" Name " class="text-warning">Name</label>
-                    <input asp-for=" Name " class="form-control"/>
-                    <span asp-validation-for=" Name " class="text-danger"></span>
+                    <label asp-for="Name" class="text-warning">tên</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group pt-2">
-                    <label asp-for=" Phone " class="text-warning">Phone</label>
-                    <input asp-for=" Phone " class="form-control"/>
-                    <span asp-validation-for=" Phone " class="text-danger"></span>
+                    <label asp-for="Phone" class="text-warning">số điện thoại</label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
                 <div class="form-group pt-2">
-                    <label asp-for=" Email " class="text-warning">Email</label>
-                    <input asp-for=" Email " class="form-control"/>
-                    <span asp-validation-for=" Email " class="text-danger"></span>
+                    <label asp-for="Email" class="text-warning">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group pt-2">
-                    <label asp-for=" CheckInDate " class="text-warning">Check in Date</label>
-                    <input asp-for=" CheckInDate " disabled class="form-control"/>
+                    <label asp-for="CheckInDate" class="text-warning">ngày đặt </label>
+                    <input asp-for="CheckInDate" disabled class="form-control" />
                 </div>
                 <div class="form-group pt-2">
-                    <label asp-for=" CheckOutDate " class="text-warning">Check Out Date</label>
-                    <input asp-for=" CheckOutDate " disabled class="form-control"/>
+                    <label asp-for="CheckOutDate" class="text-warning">ngày trả </label>
+                    <input asp-for="CheckOutDate" disabled class="form-control" />
                 </div>
                 <div class="form-group pt-2">
-                    <label asp-for=" Nights " class="text-warning">No. of nights</label>
-                    <input asp-for=" Nights " disabled class="form-control"/>
+                    <label asp-for="Nights" class="text-warning">số lượng đêm</label>
+                    <input asp-for="Nights" disabled class="form-control" />
                 </div>
                 <div class="form-group pt-2 pt-md-4">
-                    @if ( Model . Villa . IsAvailable )
+                    @if (Model.Villa.IsAvailable)
                     {
-                        <button type="submit" class="btn btn-success form-control">Looks Good! Checkout Now</button>
+                        <button type="submit" class="btn btn-success form-control">
+                            <i class="bi bi-credit-card"></i> Thanh toán!
+                        </button>
                     }
                     else
                     {
-                        <input class="btn btn-danger disabled form-control" value="Sold Out"/>
+                        <input class="btn btn-danger disabled form-control" value="Sold Out" />
                     }
                 </div>
             </form>
@@ -84,5 +86,7 @@
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }
+    
+    
