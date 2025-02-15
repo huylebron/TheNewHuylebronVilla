@@ -7,6 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Stripe.net" Version="41.27.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\NewHuylebronVilla.Domain\NewHuylebronVilla.Domain.csproj" />
   </ItemGroup>
 
