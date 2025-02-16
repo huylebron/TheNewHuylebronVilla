@@ -33,7 +33,7 @@ public class PaymentService : IPaymentService
                 ProductData = new SessionLineItemPriceDataProductDataOptions
                 {
                     Name = villa.Name
-                    //Images = new List<string> { domain + villa.ImageUrl },
+                    //images = new List<string> { domain + villa.ImageUrl },
                 },
             },
             Quantity = 1,

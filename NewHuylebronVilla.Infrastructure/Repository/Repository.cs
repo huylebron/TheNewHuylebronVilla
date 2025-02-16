@@ -1,89 +1,89 @@
-﻿using System . Linq . Expressions ;
-using Microsoft . EntityFrameworkCore ;
-using NewHuylebronVilla . Application . Common . Interface ;
-using NewHuylebronVilla . Infrastructure . Data ;
+﻿ using System . Linq . Expressions ;
+ using Microsoft . EntityFrameworkCore ;
+ using NewHuylebronVilla . Application . Common . Interface ;
+ using NewHuylebronVilla . Infrastructure . Data ;
 
-namespace NewHuylebronVilla.Infrastructure.Repository ;
+ namespace NewHuylebronVilla.Infrastructure.Repository ;
 
- public class Repository<T> : IRepository<T> where T : class
-  {
-   
-   private readonly ApplicationDbContext _db;
-   internal DbSet<T> dbSet;
-   
-   public Repository(ApplicationDbContext db)
+  public class Repository<T> : IRepository<T> where T : class
    {
-    _db = db;
-    dbSet = _db.Set<T>();
-   }
-   public IEnumerable < T > GetAll ( Expression < Func < T , bool > > ? filter = null , string ? includeProperties = null ,bool tracked = false) {
     
-    IQueryable<T> query;
-    if (tracked)
-    {
-     query = dbSet;
-    }
-    else
-    {
-     query = dbSet.AsNoTracking();
-    }
- 
-    if (filter != null)
-    {
-     query = query.Where(filter);
-    }
- 
-    if (!string.IsNullOrEmpty(includeProperties))
-    {
-     foreach (var includeProp in includeProperties
-      .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-     {
-      query = query.Include(includeProp.Trim());
-     }
-    }
- 
-    return query.ToList();
-   }
- 
-   public T Get ( Expression < Func < T , bool > > filter , string ? includeProperties = null ,  bool tracked = false) {
+    private readonly ApplicationDbContext _db;
+    internal DbSet<T> dbSet;
     
-    IQueryable<T> query;
-    if (tracked)
+    public Repository(ApplicationDbContext db)
     {
-     query = dbSet;
+     _db = db;
+     dbSet = _db.Set<T>();
     }
-    else
-    {
-     query = dbSet.AsNoTracking();
-    }
- 
-    if (filter != null)
-    {
-     query = query.Where(filter);
-    }
- 
-    if (!string.IsNullOrEmpty(includeProperties))
-    {
-     //Villa,VillaNumber -- case sensitive
-     foreach (var includeProp in includeProperties
-      .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+    public IEnumerable < T > GetAll ( Expression < Func < T , bool > > ? filter = null , string ? includeProperties = null ,bool tracked = false) {
+     
+     IQueryable<T> query;
+     if (tracked)
      {
-      query = query.Include(includeProp.Trim());
+      query = dbSet;
      }
+     else
+     {
+      query = dbSet.AsNoTracking();
+     }
+  
+     if (filter != null)
+     {
+      query = query.Where(filter);
+     }
+  
+     if (!string.IsNullOrEmpty(includeProperties))
+     {
+      foreach (var includeProp in includeProperties
+       .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+      {
+       query = query.Include(includeProp.Trim());
+      }
+     }
+  
+     return query.ToList();
     }
- 
-    return query.FirstOrDefault();
-   }
- 
-   public void Add ( T entity ) {
-    dbSet.Add(entity);
-   }
- 
-   public bool Any ( Expression < Func < T , bool > > filter ) {
-    return dbSet.Any(filter);
-   }
- 
-   public void Remove ( T entity ) {
-    dbSet.Remove(entity);
-   }
- }
+  
+    public T Get ( Expression < Func < T , bool > > filter , string ? includeProperties = null ,  bool tracked = false) {
+     
+     IQueryable<T> query;
+     if (tracked)
+     {
+      query = dbSet;
+     }
+     else
+     {
+      query = dbSet.AsNoTracking();
+     }
+  
+     if (filter != null)
+     {
+      query = query.Where(filter);
+     }
+  
+     if (!string.IsNullOrEmpty(includeProperties))
+     {
+      //Villa,VillaNumber -- case sensitive
+      foreach (var includeProp in includeProperties
+       .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+      {
+       query = query.Include(includeProp.Trim());
+      }
+     }
+  
+     return query.FirstOrDefault();
+    }
+  
+    public void Add ( T entity ) {
+     dbSet.Add(entity);
+    }
+  
+    public bool Any ( Expression < Func < T , bool > > filter ) {
+     return dbSet.Any(filter);
+    }
+  
+    public void Remove ( T entity ) {
+     dbSet.Remove(entity);
+    }
+  }

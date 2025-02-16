@@ -22,7 +22,7 @@ public class VillaService : IVillaService
      if (villa.Image != null)
      {
          string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
-         string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+         string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"\images\VillaImage");
 
          using var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create);
          villa.Image.CopyTo(fileStream);
@@ -112,7 +112,8 @@ public class VillaService : IVillaService
      if (villa.Image != null)
      {
          string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
-         string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+         string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"\images\VillaImage");
+
 
          if (!string.IsNullOrEmpty(villa.ImageUrl))
          {
@@ -128,6 +129,7 @@ public class VillaService : IVillaService
          villa.Image.CopyTo(fileStream);
 
          villa.ImageUrl = @"\images\VillaImage\" + fileName;
+
      }
 
      _unitOfWork.Villa.Update(villa);

@@ -50,7 +50,7 @@ public static int VillaRoomsAvailable_Count(int villaId,
             }
         }
     }
-
+                                                                                                                                                                        
     return finalAvailableRoomForAllNights;
 }
 
