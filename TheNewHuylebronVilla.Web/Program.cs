@@ -1,5 +1,6 @@
 using Microsoft . AspNetCore . Identity ;
 using Microsoft.EntityFrameworkCore;
+using NewHuylebronVilla . Application ;
 using NewHuylebronVilla . Application . Common . Interface ;
 using NewHuylebronVilla . Application . Services . Implementation ;
 using NewHuylebronVilla . Application . Services . Interface ;
@@ -32,12 +33,14 @@ builder.Services.Configure<IdentityOptions>(option =>
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddApplicationServices();
 
 builder.Services.AddScoped<IVillaService, VillaService>();
 builder.Services.AddScoped<IVillaNumberService, VillaNumberService>();
 builder.Services.AddScoped<IAmenityService, AmenityService>();
 builder.Services.AddScoped<IBookingService, BookingService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+
 
 
 var app = builder.Build();

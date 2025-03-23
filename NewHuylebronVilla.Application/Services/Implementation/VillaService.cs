@@ -11,128 +11,160 @@ public class VillaService : IVillaService
   
 
      private readonly IUnitOfWork _unitOfWork;
-     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IFileService _fileService;
+    private const string VillaImageFolder = "VillaImage";
+    private const string DefaultImageUrl = "https://placehold.co/600x400";
 
-     public VillaService(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
-     {
-         _unitOfWork = unitOfWork;
-         _webHostEnvironment = webHostEnvironment;
-     }
+    public VillaService(IUnitOfWork unitOfWork, IFileService fileService)
+    {
+        _unitOfWork = unitOfWork;
+        _fileService = fileService;
+    }
 
-     public void CreateVilla(Villa villa)
-     {
-         if (villa.Image != null)
-         {
-             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
-             string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+    public async Task<Villa> CreateVillaAsync(Villa villa)
+    {
+        // Xử lý tải lên hình ảnh
+        if (villa.Image != null)
+        {
+            try
+            {
+                villa.ImageUrl = await _fileService.UploadFileAsync(villa.Image, VillaImageFolder);
+            }
+            catch (Exception ex)
+            {
+                // Ghi nhật ký lỗi ở đây nếu cần
+                villa.ImageUrl = DefaultImageUrl;
+            }
+        }
+        else
+        {
+            villa.ImageUrl = DefaultImageUrl;
+        }
 
-             using var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create);
-             villa.Image.CopyTo(fileStream);
+        _unitOfWork.Villa.Add(villa);
+        _unitOfWork.Save();
+        return villa;
+    }
 
-             villa.ImageUrl = @"\images\VillaImage\" + fileName;
-         }
-         else
-         {
-             villa.ImageUrl = "https://placehold.co/600x400";
-         }
+    public bool DeleteVilla(int id)
+    {
+        try
+        {
+            Villa? objFromDb = _unitOfWork.Villa.Get(u => u.Id == id);
+            if (objFromDb is not null)
+            {
+                // Xóa tệp hình ảnh cũ nếu có
+                if (!string.IsNullOrEmpty(objFromDb.ImageUrl) && objFromDb.ImageUrl != DefaultImageUrl)
+                {
+                    _fileService.DeleteFile(objFromDb.ImageUrl);
+                }
+                
+                _unitOfWork.Villa.Remove(objFromDb);
+                _unitOfWork.Save();
+            }
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }   
+    }
 
-         _unitOfWork.Villa.Add(villa);
-         _unitOfWork.Save();
-     }
+    public IEnumerable<Villa> GetAllVillas()
+    {
+        return _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
+    }
 
-     public bool DeleteVilla(int id)
-     {
-         try
-         {
-             Villa? objFromDb = _unitOfWork.Villa.Get(u => u.Id == id);
-             if (objFromDb is not null)
-             {
-                 if (!string.IsNullOrEmpty(objFromDb.ImageUrl))
-                 {
-                     var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, objFromDb.ImageUrl.TrimStart('\\'));
+    public Villa GetVillaById(int id)
+    {
+        return _unitOfWork.Villa.Get(u => u.Id == id, includeProperties: "VillaAmenity");
+    }
 
-                     if (System.IO.File.Exists(oldImagePath))
-                     {
-                         System.IO.File.Delete(oldImagePath);
-                     }
-                 }
-                 _unitOfWork.Villa.Remove(objFromDb);
-                 _unitOfWork.Save();
+    public IEnumerable<Villa> GetVillasAvailabilityByDate(int nights, DateOnly checkInDate)
+    {
+        var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
+        var villaNumbersList = _unitOfWork.VillaNumber.GetAll().ToList();
+        var bookedVillas = _unitOfWork.Booking.GetAll(u => u.Status == Claim.StatusApproved ||
+        u.Status == Claim.StatusCheckedIn).ToList();
 
-             }
-             return true;
-         }
-         catch (Exception)
-         {
-             return false;
-         }   
-     }
+        foreach (var villa in villaList)
+        {
+            int roomAvailable = Claim.VillaRoomsAvailable_Count
+                (villa.Id, villaNumbersList, checkInDate, nights, bookedVillas);
 
-     public IEnumerable<Villa> GetAllVillas()
-     {
-         return _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
-     }
+            villa.IsAvailable = roomAvailable > 0;
+        }
 
-     public Villa GetVillaById(int id)
-     {
-         return _unitOfWork.Villa.Get(u => u.Id == id, includeProperties: "VillaAmenity");
-     }
+        return villaList;
+    }
 
-     public IEnumerable<Villa> GetVillasAvailabilityByDate(int nights, DateOnly checkInDate)
-     {
-         var villaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
-         var villaNumbersList = _unitOfWork.VillaNumber.GetAll().ToList();
-         var bookedVillas = _unitOfWork.Booking.GetAll(u => u.Status == Claim.StatusApproved ||
-         u.Status == Claim.StatusCheckedIn).ToList();
+    public bool IsVillaAvailableByDate(int villaId, int nights, DateOnly checkInDate)
+    {
+        var villaNumbersList = _unitOfWork.VillaNumber.GetAll().ToList();
+        var bookedVillas = _unitOfWork.Booking.GetAll(u => u.Status == Claim.StatusApproved ||
+        u.Status == Claim.StatusCheckedIn).ToList();
 
+        int roomAvailable = Claim.VillaRoomsAvailable_Count
+            (villaId, villaNumbersList, checkInDate, nights, bookedVillas);
 
-         foreach (var villa in villaList)
-         {
-             int roomAvailable = Claim.VillaRoomsAvailable_Count
-                 (villa.Id, villaNumbersList, checkInDate, nights, bookedVillas);
+        return roomAvailable > 0;
+    }
 
-             villa.IsAvailable = roomAvailable > 0 ? true : false;
-         }
+    public async Task<Villa> UpdateVillaAsync(Villa villa)
+    {
+        var existingVilla = _unitOfWork.Villa.Get(u => u.Id == villa.Id, tracked: true);
+        if (existingVilla == null)
+        {
+            throw new KeyNotFoundException($"Không tìm thấy Villa với ID {villa.Id}");
+        }
 
-         return villaList;
-     }
+        // Xử lý tải lên hình ảnh mới nếu có
+        if (villa.Image != null)
+        {
+            try
+            {
+                // Xóa hình ảnh cũ nếu có
+                if (!string.IsNullOrEmpty(existingVilla.ImageUrl) && existingVilla.ImageUrl != DefaultImageUrl)
+                {
+                    _fileService.DeleteFile(existingVilla.ImageUrl);
+                }
 
-     public bool IsVillaAvailableByDate(int villaId, int nights, DateOnly checkInDate)
-     {
-         var villaNumbersList = _unitOfWork.VillaNumber.GetAll().ToList();
-         var bookedVillas = _unitOfWork.Booking.GetAll(u => u.Status == Claim.StatusApproved ||
-         u.Status == Claim.StatusCheckedIn).ToList();
+                // Tải lên hình ảnh mới
+                villa.ImageUrl = await _fileService.UploadFileAsync(villa.Image, VillaImageFolder);
+            }
+            catch (Exception ex)
+            {
+                // Giữ nguyên hình ảnh cũ nếu có lỗi
+                villa.ImageUrl = existingVilla.ImageUrl;
+            }
+        }
+        else
+        {
+            // Giữ nguyên hình ảnh cũ
+            villa.ImageUrl = existingVilla.ImageUrl;
+        }
 
-         int roomAvailable = Claim.VillaRoomsAvailable_Count
-             (villaId, villaNumbersList, checkInDate, nights, bookedVillas);
+        // Cập nhật các thuộc tính khác
+        existingVilla.Name = villa.Name;
+        existingVilla.Description = villa.Description;
+        existingVilla.Price = villa.Price;
+        existingVilla.Occupancy = villa.Occupancy;
+        existingVilla.Sqft = villa.Sqft;
+        existingVilla.ImageUrl = villa.ImageUrl;
+        existingVilla.Updated_Date = DateTime.Now;
 
-         return roomAvailable > 0;
-     }
+        _unitOfWork.Save();
+        return existingVilla;
+    }
 
-     public void UpdateVilla(Villa villa)
-     {
-         if (villa.Image != null)
-         {
-             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
-             string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+    // Triển khai giao diện đồng bộ hiện tại của IVillaService
+    public void CreateVilla(Villa villa)
+    {
+        CreateVillaAsync(villa).GetAwaiter().GetResult();
+    }
 
-             if (!string.IsNullOrEmpty(villa.ImageUrl))
-             {
-                 var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, villa.ImageUrl.TrimStart('\\'));
-
-                 if (System.IO.File.Exists(oldImagePath))
-                 {
-                     System.IO.File.Delete(oldImagePath);
-                 }
-             }
-
-             using var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create);
-             villa.Image.CopyTo(fileStream);
-
-             villa.ImageUrl = @"\images\VillaImage\" + fileName;
-         }
-
-         _unitOfWork.Villa.Update(villa);
-         _unitOfWork.Save();
-     }
+    public void UpdateVilla(Villa villa)
+    {
+        UpdateVillaAsync(villa).GetAwaiter().GetResult();
+    }
 }
